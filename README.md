@@ -19,14 +19,14 @@
 
   <h3 align="center">小巧、功能丰富、食用方便</h3>
   <p align="center">
-    本项目支持类似Tomcat的所有核心功能，切拓展了插件化插槽！
+    本项目支持类似Tomcat的所有核心功能，且都做了Micro设计！
     <br />
     <a href=""><strong>探索本Scorpio的使用手册 »</strong></a>
     <br />
     <br />
     <a href="">看看小Demo</a>
     ·
-    <a href="">找到一些Bug</a>
+    <a href="">提个Bug</a>
     ·
     <a href="">有新的点子</a>
   </p>
