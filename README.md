@@ -4,7 +4,7 @@
 
 <!-- PROJECT SHIELDS -->
 
-![GitHub](https://img.shields.io/github/license/Touch-Sun/-scorpio)
+![GitHub](https://img.shields.io/github/license/Touch-Sun/scorpio)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -97,7 +97,7 @@ filetree
 
 ### 开发的架构 
 
-请阅读[ARCHITECTURE.md](https://github.com/shaojintian/Best_README_template/blob/master/ARCHITECTURE.md) 查阅为该项目的架构。
+敬请期待
 
 ### 部署
 
