@@ -1,13 +1,14 @@
 package com.touchsun.scorpio;
 
 import cn.hutool.core.util.NetUtil;
-import com.touchsun.scorpio.core.config.BootStrapConfig;
+import com.touchsun.scorpio.core.config.ScorpioConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 启动类
@@ -21,7 +22,7 @@ public class BootStrap {
 
     private static void run() {
         try {
-            Integer port = BootStrapConfig.PORT;
+            Integer port = ScorpioConfig.DEFAULT_PORT;
 
             // 检测端口占用情况
             if (!NetUtil.isUsableLocalPort(port)) {
@@ -46,7 +47,7 @@ public class BootStrap {
                 byte[] buffer = new byte[bufferSize];
                 inputStream.read(buffer);
                 // 字节数组buffer -> 字符串打印
-                String requestContent = new String(buffer, "utf-8");
+                String requestContent = new String(buffer, StandardCharsets.UTF_8);
                 System.out.println(("收到传入信息：" + requestContent));
 
                 // 处理输出数据(响应)
