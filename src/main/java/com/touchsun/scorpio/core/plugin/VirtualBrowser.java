@@ -3,6 +3,7 @@ package com.touchsun.scorpio.core.plugin;
 import com.touchsun.scorpio.core.config.VirtualBrowserConfig;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -202,23 +203,8 @@ public class VirtualBrowser {
             PrintWriter printWriter = new PrintWriter(client.getOutputStream(), true);
             printWriter.println(httpRequestContent);
             InputStream inputStream = client.getInputStream();
-
-            int bufferSize = 1024;
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[bufferSize];
-            while (true) {
-                int length = inputStream.read(buffer);
-                if (VirtualBrowserConfig.DEFAULT_INPUT_STREAM_NULL_TAG == length) {
-                    break;
-                }
-                byteArrayOutputStream.write(buffer, 0 ,length);
-                if (length != bufferSize) {
-                    break;
-                }
-            }
-
-            result = byteArrayOutputStream.toByteArray();
+            // 读取Http请求内容的所有字节
+            result = readBytes(inputStream);
             client.close();
 
         } catch (Exception exception) {
@@ -227,6 +213,31 @@ public class VirtualBrowser {
         }
 
         return result;
+    }
+
+    /**
+     * 读取字节内容从请求中
+     * @param inputStream 客户端创建的输入流
+     * @return 字节内容
+     * @throws IOException IO异常
+     */
+    public static byte[] readBytes(InputStream inputStream) throws IOException {
+        int bufferSize = 1024;
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[bufferSize];
+        while (true) {
+            int length = inputStream.read(buffer);
+            if (VirtualBrowserConfig.DEFAULT_INPUT_STREAM_NULL_TAG == length) {
+                break;
+            }
+            byteArrayOutputStream.write(buffer, 0 ,length);
+            if (length != bufferSize) {
+                break;
+            }
+        }
+
+        return byteArrayOutputStream.toByteArray();
     }
 }
 
