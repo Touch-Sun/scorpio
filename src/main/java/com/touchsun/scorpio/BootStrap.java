@@ -2,6 +2,7 @@ package com.touchsun.scorpio;
 
 import cn.hutool.core.util.NetUtil;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
+import com.touchsun.scorpio.core.web.Request;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,15 +41,11 @@ public class BootStrap {
                 // 收到的浏览器的一个请求
                 Socket socket = serverSocket.accept();
 
-                // 处理输入数据(请求)
-                InputStream inputStream = socket.getInputStream();
-                // 读取浏览器的请求信息，放到buffer数组内
-                int bufferSize = 1024;
-                byte[] buffer = new byte[bufferSize];
-                inputStream.read(buffer);
-                // 字节数组buffer -> 字符串打印
-                String requestContent = new String(buffer, StandardCharsets.UTF_8);
-                System.out.println(("收到传入信息：" + requestContent));
+                // 实例化Request对象解析Http
+                Request request = new Request(socket);
+                System.out.println(("收到Http请求信息：" + request.getRequestContent()));
+                System.out.println(("请求Uri：" + request.getUri()));
+
 
                 // 处理输出数据(响应)
                 OutputStream outputStream = socket.getOutputStream();
