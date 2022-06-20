@@ -4,8 +4,9 @@
 
 <!-- PROJECT SHIELDS -->
 
-![GitHub Repo stars](https://img.shields.io/github/stars/Touch-Sun/scorpio)
+![GitHub last commit](https://img.shields.io/github/last-commit/Touch-Sun/scorpio)
 ![GitHub issues](https://img.shields.io/github/issues/Touch-Sun/scorpio)
+![GitHub Repo stars](https://img.shields.io/github/stars/Touch-Sun/scorpio)
 ![GitHub watchers](https://img.shields.io/github/watchers/Touch-Sun/scorpio)
 ![GitHub](https://img.shields.io/github/license/Touch-Sun/scorpio)
 
