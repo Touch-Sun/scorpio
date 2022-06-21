@@ -40,7 +40,7 @@ public class Request {
             System.err.println("Http请求内容为空,无法解析Uri");
             return;
         }
-        System.out.println("Request实例化成功" + this);
+        System.out.println("Request实例化成功 [" + this + "]");
     }
 
     /**
