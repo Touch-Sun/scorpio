@@ -76,7 +76,7 @@ public class BootStrap {
 
                 // 响应流
                 reply200(socket,response);
-                reponseLog(response);
+                responseLog(response);
             }
 
         } catch (IOException e) {
@@ -123,7 +123,7 @@ public class BootStrap {
      * Response组件响应信息
      * @param response response 组件
      */
-    public static void reponseLog(Response response) {
+    public static void responseLog(Response response) {
         System.out.println("-------------------------[RESPONSE]-------------------------");
         System.out.println("Scorpio应答: " + new String(response.getBody(), StandardCharsets.UTF_8));
     }
