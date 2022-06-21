@@ -34,7 +34,7 @@ public class Response {
         this.stringWriter = new StringWriter();
         this.printWriter = new PrintWriter(stringWriter);
         this.contentType = ResponseConstant.TEXT_HTML;
-        System.out.println("Response实例化成功 [" + this + "]");
+        System.out.println(this);
     }
 
     /**
