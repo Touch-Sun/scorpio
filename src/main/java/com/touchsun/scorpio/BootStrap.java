@@ -1,5 +1,6 @@
 package com.touchsun.scorpio;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.NetUtil;
 import cn.hutool.core.util.StrUtil;
@@ -8,10 +9,12 @@ import com.touchsun.scorpio.core.constant.ResponseConstant;
 import com.touchsun.scorpio.core.web.Request;
 import com.touchsun.scorpio.core.web.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 启动类
@@ -45,15 +48,35 @@ public class BootStrap {
 
                 // 实例化Request对象解析Http,处理输入数据(请求)
                 Request request = new Request(socket);
-                System.out.println(("收到Http请求信息：" + request.getRequestContent()));
-                System.out.println(("请求Uri：" + request.getUri()));
+                requestLog(request);
 
                 // 实例化Response对象,处理输出数据(响应)
                 Response response = new Response();
-                String html = "Hi, Welcome to Scorpio!";
-                response.getPrintWriter().println(html);
 
+                // 根据URI返回资源
+                String uri = request.getUri();
+                if (ScorpioConfig.URI_ROOT.equals(uri)) {
+                    // "/"根路径返回欢迎内容
+                    response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
+                } else {
+                    // 去除"/"得到文件名称 [/hello.html -> hello.html]
+                    String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
+                    // 根据文件名找文件
+                    File file = FileUtil.file(ScorpioConfig.ROOT_FOLDER, fileName);
+                    if (file.exists()) {
+                        // 读取文件内容
+                        String fileContent = FileUtil.readUtf8String(file);
+                        // 写入响应对象
+                        response.getPrintWriter().println(fileContent);
+                    } else {
+                        // 写入[文件未找到信息]
+                        response.getPrintWriter().println(ScorpioConfig.MSG_FILE_NOT_FOUND);
+                    }
+                }
+
+                // 响应流
                 reply200(socket,response);
+                reponseLog(response);
             }
 
         } catch (IOException e) {
@@ -85,6 +108,24 @@ public class BootStrap {
         outputStream.write(responseBytes);
         outputStream.flush();
         socket.close();
+    }
+
+    /**
+     * Request组件请求信息
+     * @param request request 组件
+     */
+    public static void requestLog(Request request) {
+        System.out.println("-------------------------[REQUEST]--------------------------");
+        System.out.println(("收到Http请求：\n" + request.getRequestContent()));
+    }
+
+    /**
+     * Response组件响应信息
+     * @param response response 组件
+     */
+    public static void reponseLog(Response response) {
+        System.out.println("-------------------------[RESPONSE]-------------------------");
+        System.out.println("Scorpio应答: " + new String(response.getBody(), StandardCharsets.UTF_8));
     }
 }
 
