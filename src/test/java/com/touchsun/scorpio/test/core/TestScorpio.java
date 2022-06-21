@@ -31,6 +31,11 @@ public class TestScorpio {
         Assert.assertEquals(html, "Hi, Welcome to Scorpio!");
     }
 
+    /**
+     * 调用虚拟浏览器请求Scorpio
+     * @param uri URI
+     * @return HTML
+     */
     public String getContent(String uri) {
         String url = StrUtil.format("http://{}:{}{}",
                 ScorpioConfig.DEFAULT_ADDRESS, ScorpioConfig.DEFAULT_PORT, uri);
