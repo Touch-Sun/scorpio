@@ -15,7 +15,8 @@
 
 <p align="center">
   <a href="https://github.com/Touch-Sun/scorpio">
-    <img src="https://s1.328888.xyz/2022/06/19/0O7RC.png" alt="Logo" width="300" height="300">
+    <!--<img src="https://s1.328888.xyz/2022/06/19/0O7RC.png" alt="Logo" width="300" height="300">-->
+    <img src="https://s1.328888.xyz/2022/06/21/sArGM.png" alt="Logo" width="auto" height="auto">
   </a>
 
   <h3 align="center">小巧、功能丰富、食用方便</h3>
