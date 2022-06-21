@@ -1,6 +1,7 @@
 package com.touchsun.scorpio.core.web;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.plugin.VirtualBrowser;
 import lombok.Getter;
 
@@ -40,7 +41,7 @@ public class Request {
             System.err.println("Http请求内容为空,无法解析Uri");
             return;
         }
-        System.out.println(this);
+        LogFactory.get().debug(this.toString());
     }
 
     /**

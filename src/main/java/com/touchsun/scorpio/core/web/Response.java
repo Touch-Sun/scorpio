@@ -1,5 +1,6 @@
 package com.touchsun.scorpio.core.web;
 
+import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
 import lombok.Getter;
 
@@ -34,7 +35,7 @@ public class Response {
         this.stringWriter = new StringWriter();
         this.printWriter = new PrintWriter(stringWriter);
         this.contentType = ResponseConstant.TEXT_HTML;
-        System.out.println(this);
+        LogFactory.get().debug(this.toString());
     }
 
     /**
