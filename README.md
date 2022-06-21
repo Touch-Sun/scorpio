@@ -6,16 +6,16 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Touch-Sun/scorpio)
 ![GitHub issues](https://img.shields.io/github/issues/Touch-Sun/scorpio)
-![GitHub Repo stars](https://img.shields.io/github/stars/Touch-Sun/scorpio)
-![GitHub watchers](https://img.shields.io/github/watchers/Touch-Sun/scorpio)
+![GitHub Repo stars](https://img.shields.io/github/stars/Touch-Sun/scorpio) 
 ![GitHub](https://img.shields.io/github/license/Touch-Sun/scorpio)
+<!-- ![GitHub watchers](https://img.shields.io/github/watchers/Touch-Sun/scorpio) -->
 
 <!-- PROJECT LOGO -->
 <br />
 
 <p align="center">
   <a href="https://github.com/Touch-Sun/scorpio">
-    <!--<img src="https://s1.328888.xyz/2022/06/19/0O7RC.png" alt="Logo" width="300" height="300">-->
+    <!-- <img src="https://s1.328888.xyz/2022/06/19/0O7RC.png" alt="Logo" width="300" height="300"> -->
     <img style="box-shadow: 1px 1px 10px #6b1839; border-radius: 15px" src="https://s1.328888.xyz/2022/06/21/sArGM.png" alt="Logo" width="auto" height="auto">
   </a>
 
