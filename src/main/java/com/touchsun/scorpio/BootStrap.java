@@ -2,8 +2,8 @@ package com.touchsun.scorpio;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.NetUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
 import com.touchsun.scorpio.core.web.Request;
@@ -15,6 +15,9 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 启动类
@@ -28,18 +31,13 @@ public class BootStrap {
 
     private static void run() {
         try {
-            Integer port = ScorpioConfig.DEFAULT_PORT;
-
-            // 检测端口占用情况
-            if (!NetUtil.isUsableLocalPort(port)) {
-                System.out.println("端口[{" + port + "}]已经被占用，启动失败，请检测后重新启动……");
-                return;
-            }
-
-            System.out.println("Scorpio启动成功,监听端口[io-" + port + "]");
+            // 启动Scorpio日志
+            jvmLog();
 
             // 开启服务器套接字通讯
+            Integer port = ScorpioConfig.DEFAULT_PORT;
             ServerSocket serverSocket = new ServerSocket(port);
+            LogFactory.get().info("Scorpio启动成功,监听端口[io-" + port + "]");
 
             // 循环：处理一个socket连接后在处理下一个
             while (true) {
@@ -81,6 +79,7 @@ public class BootStrap {
 
         } catch (IOException e) {
             e.printStackTrace();
+            LogFactory.get().error(e);
         }
     }
 
@@ -111,12 +110,30 @@ public class BootStrap {
     }
 
     /**
+     * Scorpio启动日志
+     */
+    public static void jvmLog() {
+        Map<String, String> infos = new HashMap<>(15);
+        infos.put(ScorpioConfig.JVM_SERVER_VERSION_FILED, ScorpioConfig.JVM_SERVER_VERSION_VALUE);
+        infos.put(ScorpioConfig.JVM_SERVER_BUILD_TIME_FIELD, ScorpioConfig.JVM_SERVER_BUILD_TIME_VALUE);
+        infos.put(ScorpioConfig.JVM_OS_NAME_FIELD, ScorpioConfig.JVM_OS_NAME_VALUE);
+        infos.put(ScorpioConfig.JVM_OS_VERSION_FIELD, ScorpioConfig.JVM_OS_VERSION_VALUE);
+        infos.put(ScorpioConfig.JVM_OS_ARCHITECTURE_FIELD, ScorpioConfig.JVM_OS_ARCHITECTURE_VALUE);
+        infos.put(ScorpioConfig.JVM_JAVA_HOME_FIELD, ScorpioConfig.JVM_JAVA_HOME_VALUE);
+        infos.put(ScorpioConfig.JVM_JAVA_VERSION_FIELD, ScorpioConfig.JVM_JAVA_VERSION_VALUE);
+        infos.put(ScorpioConfig.JVM_JAVA_VENDOR_FIELD, ScorpioConfig.JVM_JAVA_VERSION_VALUE);
+        Set<String> keySet = infos.keySet();
+        for (String key : keySet) {
+            LogFactory.get().debug(key + ScorpioConfig.SYMBOL_COLON + ScorpioConfig.SYMBOL_TAB_TAB + infos.get(key));
+        }
+    }
+
+    /**
      * Request组件请求信息
      * @param request request 组件
      */
     public static void requestLog(Request request) {
-        System.out.println("-------------------------[REQUEST]--------------------------");
-        System.out.println(("收到Http请求：\n" + request.getRequestContent()));
+        LogFactory.get().info("Scorpio收到请求：\n" + request.getRequestContent());
     }
 
     /**
@@ -124,8 +141,7 @@ public class BootStrap {
      * @param response response 组件
      */
     public static void responseLog(Response response) {
-        System.out.println("-------------------------[RESPONSE]-------------------------");
-        System.out.println("Scorpio应答: " + new String(response.getBody(), StandardCharsets.UTF_8));
+        LogFactory.get().info("Scorpio进行应答: " + new String(response.getBody(), StandardCharsets.UTF_8));
     }
 }
 
