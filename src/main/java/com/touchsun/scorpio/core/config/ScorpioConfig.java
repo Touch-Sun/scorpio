@@ -22,6 +22,11 @@ public class ScorpioConfig {
     public static String DEFAULT_ADDRESS = "127.0.0.1";
 
     /**
+     * Scorpio线程名称
+     */
+    public static final String DEFAULT_THREAD_NAME = "scorpio-thread-";
+
+    /**
      * URI[根路径]
      */
     public static String URI_ROOT = "/";

@@ -1,6 +1,7 @@
 package com.touchsun.scorpio.core.plugin;
 
 import cn.hutool.log.LogFactory;
+import com.touchsun.scorpio.core.config.ScorpioConfig;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -32,7 +33,7 @@ public class ThreadHelper {
             new LinkedBlockingQueue<>(10),
             // 线程工厂
             // [设置线程名称]
-            r -> new Thread(r, "scorpio-thread-" + r.hashCode()));
+            r -> new Thread(r, ScorpioConfig.DEFAULT_THREAD_NAME + r.hashCode()));
 
     /**
      * 提交任务到线程池
