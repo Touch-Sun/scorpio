@@ -32,7 +32,7 @@ public class ScorpioApplication {
      * @param bootStrapClass 启动类
      * @param args 命令行参数
      */
-    public static void run(Class<BootStrap> bootStrapClass, String[] args) {
+    public static void run(Class<?> bootStrapClass, String[] args) {
         try {
             // 启动Scorpio日志
             jvmLog();
