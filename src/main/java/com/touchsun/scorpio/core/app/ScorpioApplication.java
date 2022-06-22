@@ -8,6 +8,7 @@ import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.BootStrap;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
+import com.touchsun.scorpio.core.plugin.ThreadHelper;
 import com.touchsun.scorpio.core.web.Request;
 import com.touchsun.scorpio.core.web.Response;
 
@@ -47,48 +48,64 @@ public class ScorpioApplication {
             while (true) {
                 // 收到的浏览器的一个请求
                 Socket socket = serverSocket.accept();
-
-                // 实例化Request对象解析Http,处理输入数据(请求)
-                Request request = new Request(socket);
-                requestLog(request);
-
-                // 实例化Response对象,处理输出数据(响应)
-                Response response = new Response();
-
-                // 根据URI返回资源
-                String uri = request.getUri();
-                if (ScorpioConfig.URI_ROOT.equals(uri)) {
-                    // "/"根路径返回欢迎内容
-                    response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
-                } else {
-                    // 去除"/"得到文件名称 [/hello.html -> hello.html]
-                    String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
-                    // 根据文件名找文件
-                    File file = FileUtil.file(ScorpioConfig.ROOT_FOLDER, fileName);
-                    if (file.exists()) {
-                        // 模拟线程阻塞页面[阻塞2s]
-                        if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
-                            ThreadUtil.sleep(2000);
-                        }
-                        // 读取文件内容
-                        String fileContent = FileUtil.readUtf8String(file);
-                        // 写入响应对象
-                        response.getPrintWriter().println(fileContent);
-                    } else {
-                        // 写入[文件未找到信息]
-                        response.getPrintWriter().println(ScorpioConfig.MSG_FILE_NOT_FOUND);
+                // 向线程池提交处理请求任务
+                ThreadHelper.run(() -> {
+                    try {
+                        handleRequest(socket);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        LogFactory.get().error(e);
                     }
-                }
-
-                // 响应流
-                reply200(socket,response);
-                responseLog(response);
+                });
             }
 
         } catch (IOException e) {
             e.printStackTrace();
             LogFactory.get().error(e);
         }
+    }
+
+    /**
+     * 处理请求
+     * @param socket 客户端连接
+     * @throws IOException IO异常
+     */
+    private static void handleRequest(Socket socket) throws IOException {
+        // 实例化Request对象解析Http,处理输入数据(请求)
+        Request request = new Request(socket);
+        requestLog(request);
+
+        // 实例化Response对象,处理输出数据(响应)
+        Response response = new Response();
+
+        // 根据URI返回资源
+        String uri = request.getUri();
+        if (ScorpioConfig.URI_ROOT.equals(uri)) {
+            // "/"根路径返回欢迎内容
+            response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
+        } else {
+            // 去除"/"得到文件名称 [/hello.html -> hello.html]
+            String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
+            // 根据文件名找文件
+            File file = FileUtil.file(ScorpioConfig.ROOT_FOLDER, fileName);
+            if (file.exists()) {
+                // 模拟线程阻塞页面[阻塞2s]
+                if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
+                    ThreadUtil.sleep(2000);
+                }
+                // 读取文件内容
+                String fileContent = FileUtil.readUtf8String(file);
+                // 写入响应对象
+                response.getPrintWriter().println(fileContent);
+            } else {
+                // 写入[文件未找到信息]
+                response.getPrintWriter().println(ScorpioConfig.MSG_FILE_NOT_FOUND);
+            }
+        }
+
+        // 响应流
+        reply200(socket,response);
+        responseLog(response);
     }
 
     /**

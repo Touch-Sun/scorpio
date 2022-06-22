@@ -63,7 +63,7 @@ public class TestScorpio {
         // 计时器开始计时
         TimeInterval timeInterval = DateUtil.timer();
         // 连续执行3个任务
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 20; i++) {
             executor.execute(() -> getContent(ScorpioConfig.URI_ROOT + ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME));
         }
         // 尝试关闭线程池
@@ -74,7 +74,7 @@ public class TestScorpio {
         if (executeStatus) {
             long totalTime = timeInterval.interval();
             LogFactory.get().info("请求总用时{}ms", totalTime);
-            Assert.assertTrue(totalTime > 6000);
+            Assert.assertTrue(totalTime < 6000);
         }
     }
 
