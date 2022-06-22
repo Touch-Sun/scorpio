@@ -64,7 +64,7 @@ public class ScorpioConfig {
     public static final String JVM_SERVER_BUILD_TIME_FIELD = "Server Build";
     public static final String JVM_SERVER_BUILD_TIME_VALUE = DateUtil.now();
 
-    public static final String JVM_OS_NAME_FIELD = "OS Name\t";
+    public static final String JVM_OS_NAME_FIELD = "OS Name";
     public static final String JVM_OS_NAME_VALUE = SystemUtil.get("os.name");
 
     public static final String JVM_OS_VERSION_FIELD = "OS Version";

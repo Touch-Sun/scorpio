@@ -17,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -115,7 +116,7 @@ public class ScorpioApplication {
      * Scorpio启动日志
      */
     public static void jvmLog() {
-        Map<String, String> infos = new HashMap<>(15);
+        Map<String, String> infos = new LinkedHashMap<>(15);
         infos.put(ScorpioConfig.JVM_SERVER_VERSION_FILED, ScorpioConfig.JVM_SERVER_VERSION_VALUE);
         infos.put(ScorpioConfig.JVM_SERVER_BUILD_TIME_FIELD, ScorpioConfig.JVM_SERVER_BUILD_TIME_VALUE);
         infos.put(ScorpioConfig.JVM_OS_NAME_FIELD, ScorpioConfig.JVM_OS_NAME_VALUE);
@@ -126,7 +127,9 @@ public class ScorpioApplication {
         infos.put(ScorpioConfig.JVM_JAVA_VENDOR_FIELD, ScorpioConfig.JVM_JAVA_VERSION_VALUE);
         Set<String> keySet = infos.keySet();
         for (String key : keySet) {
-            LogFactory.get().debug(key + ScorpioConfig.SYMBOL_COLON + ScorpioConfig.SYMBOL_TAB_TAB + infos.get(key));
+            LogFactory.get().debug(key + ScorpioConfig.SYMBOL_COLON
+                    + ScorpioConfig.SYMBOL_TAB_TAB
+                    + infos.get(key));
         }
     }
 
