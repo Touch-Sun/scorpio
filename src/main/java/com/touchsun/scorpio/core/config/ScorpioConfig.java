@@ -22,7 +22,7 @@ public class ScorpioConfig {
     public static String DEFAULT_ADDRESS = "127.0.0.1";
 
     /**
-     * Scorpio线程名称
+     * 默认线程名称[常规配置]
      */
     public static final String DEFAULT_THREAD_NAME = "scorpio-thread-";
 
