@@ -1,11 +1,19 @@
 package com.touchsun.scorpio.test.core;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.plugin.VirtualBrowser;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Scorpio容器健康监测[测试]
@@ -17,10 +25,10 @@ public class TestScorpio {
     public static void beforeClass() {
         // 所有的单元测试启动之前，先看Scorpio是否启动了
         if (!scorpioIsEnable()) {
-            System.err.println("在端口[io-" + ScorpioConfig.DEFAULT_PORT + "]未检测到Scorpio进程，请启动Scorpio后进行测试");
+            LogFactory.get().error("在端口[io-" + ScorpioConfig.DEFAULT_PORT + "]未检测到Scorpio进程，请启动Scorpio后进行测试");
             System.exit(1);
         } else {
-            System.out.println("在端口[io-" + ScorpioConfig.DEFAULT_PORT + "]检测到Scorpio进程，开始进行单元测试");
+            LogFactory.get().info("在端口[io-" + ScorpioConfig.DEFAULT_PORT + "]检测到Scorpio进程，开始进行单元测试");
         }
     }
 
@@ -40,6 +48,34 @@ public class TestScorpio {
     public void testHtmlScorpio() {
         String html = getContent("/hello.html");
         Assert.assertEquals(html, "Hi,Scorpio,this is html file!");
+    }
+
+    /**
+     * 测试并发访问场景下的处理速度
+     * @throws InterruptedException 线程中断异常
+     */
+    @Test
+    public void testTimeConsumeScorpio() throws InterruptedException {
+        // 准备一个线程池
+        ThreadPoolExecutor executor = new
+                ThreadPoolExecutor(20, 20, 60,
+                TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
+        // 计时器开始计时
+        TimeInterval timeInterval = DateUtil.timer();
+        // 连续执行3个任务
+        for (int i = 0; i < 3; i++) {
+            executor.execute(() -> getContent(ScorpioConfig.URI_ROOT + ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME));
+        }
+        // 尝试关闭线程池
+        executor.shutdown();
+        // 池内若有线程任务未执行完毕,则等待执行完毕,给出1小时的时间,1小时之内若执行完毕,直接返回,超过1小时直接返回
+        boolean executeStatus = executor.awaitTermination(1, TimeUnit.HOURS);
+        // 断言时间间隔
+        if (executeStatus) {
+            long totalTime = timeInterval.interval();
+            LogFactory.get().info("请求总用时{}ms", totalTime);
+            Assert.assertTrue(totalTime > 6000);
+        }
     }
 
     /**

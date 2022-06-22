@@ -1,6 +1,7 @@
 package com.touchsun.scorpio.core.app;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
@@ -65,6 +66,10 @@ public class ScorpioApplication {
                     // 根据文件名找文件
                     File file = FileUtil.file(ScorpioConfig.ROOT_FOLDER, fileName);
                     if (file.exists()) {
+                        // 模拟线程阻塞页面[阻塞2s]
+                        if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
+                            ThreadUtil.sleep(2000);
+                        }
                         // 读取文件内容
                         String fileContent = FileUtil.readUtf8String(file);
                         // 写入响应对象

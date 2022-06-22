@@ -27,6 +27,11 @@ public class ScorpioConfig {
     public static String URI_ROOT = "/";
 
     /**
+     * 页面[timeConsume.html]
+     */
+    public static final String PAGE_NAME_HTML_TIME_CONSUME = "timeConsume.html";
+
+    /**
      * 信息[文件未找到]
      */
     public static String MSG_FILE_NOT_FOUND = "File Not Found";
