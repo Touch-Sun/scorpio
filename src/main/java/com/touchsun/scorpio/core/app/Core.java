@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +28,37 @@ import java.util.Set;
 public class Core {
 
     /**
+     * 访问路径 -> Context
+     */
+    public static Map<String, Context> appContext = new HashMap<>();
+
+    /**
+     * 加载Web应用到上下文
+     */
+    public static void loadApplicationContext() {
+        // 获取WebApps下的所有文件/文件夹
+        File[] files = ScorpioConfig.WEBAPPS_FOLDER.listFiles();
+        int count = 0;
+        for (File file : files) {
+            // 目录代表是一个App
+            if (file.isDirectory()) {
+                String path = file.getName();
+                if (StrUtil.equals(ScorpioConfig.FOLDER_ROOT_NAME, path)) {
+                    // ROOT文件夹的访问路径默认为 "/"
+                    path = ScorpioConfig.URI_ROOT;
+                } else {
+                    // App的访问路径 "/" + folder name -> "/numbers"
+                    path = ScorpioConfig.URI_ROOT + path;
+                }
+                // 存储到上下文Map
+                appContext.put(path, new Context(path, file.getAbsolutePath()));
+                count++;
+            }
+        }
+        LogFactory.get().debug(ScorpioConfig.MSG_LOAD_APP_CONTEXT_COUNT, count);
+    }
+
+    /**
      * 构建服务器通讯
      * @return serverSocket
      * @throws IOException IO异常
@@ -34,7 +66,7 @@ public class Core {
     public static ServerSocket buildConnect() throws IOException {
         Integer port = ScorpioConfig.DEFAULT_PORT;
         ServerSocket serverSocket = new ServerSocket(port);
-        LogFactory.get().info("Scorpio启动成功,监听端口[io-" + port + "]");
+        LogFactory.get().info(ScorpioConfig.MSG_SCORPIO_STARTED, port);
         return serverSocket;
     }
 
@@ -51,16 +83,20 @@ public class Core {
         // 实例化Response对象,处理输出数据(响应)
         Response response = new Response();
 
+
         // 根据URI返回资源
         String uri = request.getUri();
+        // 获取应用上下文,定位不同的Web应用
+        Context appContext = request.getAppContext();
+
         if (ScorpioConfig.URI_ROOT.equals(uri)) {
             // "/"根路径返回欢迎内容
             response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
         } else {
             // 去除"/"得到文件名称 [/hello.html -> hello.html]
             String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
-            // 根据文件名找文件
-            File file = FileUtil.file(ScorpioConfig.ROOT_FOLDER, fileName);
+            // 根据文件名以及应用上下文去找文件
+            File file = FileUtil.file(appContext.getAppPath(), fileName);
             if (file.exists()) {
                 // 模拟线程阻塞页面[阻塞2s]
                 if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
@@ -119,7 +155,7 @@ public class Core {
         infos.put(ScorpioConfig.JVM_OS_ARCHITECTURE_FIELD, ScorpioConfig.JVM_OS_ARCHITECTURE_VALUE);
         infos.put(ScorpioConfig.JVM_JAVA_HOME_FIELD, ScorpioConfig.JVM_JAVA_HOME_VALUE);
         infos.put(ScorpioConfig.JVM_JAVA_VERSION_FIELD, ScorpioConfig.JVM_JAVA_VERSION_VALUE);
-        infos.put(ScorpioConfig.JVM_JAVA_VENDOR_FIELD, ScorpioConfig.JVM_JAVA_VERSION_VALUE);
+        infos.put(ScorpioConfig.JVM_JAVA_VENDOR_FIELD, ScorpioConfig.JVM_JAVA_VENDOR_VALUE);
         Set<String> keySet = infos.keySet();
         for (String key : keySet) {
             LogFactory.get().debug(key + ScorpioConfig.SYMBOL_COLON
