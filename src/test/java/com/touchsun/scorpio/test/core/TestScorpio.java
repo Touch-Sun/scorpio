@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -76,6 +75,12 @@ public class TestScorpio {
             LogFactory.get().info("请求总用时{}ms", totalTime);
             Assert.assertTrue(totalTime < 6000);
         }
+    }
+
+    @Test
+    public void testNumbersAppScorpio() {
+        String html = getContent("/numbers/index.html");
+        Assert.assertEquals(html, "This is the numbers' app!");
     }
 
     /**
