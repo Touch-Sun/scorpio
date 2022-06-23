@@ -17,6 +17,11 @@ public class ScorpioConfig {
     public static Integer DEFAULT_PORT = 1204;
 
     /**
+     * 默认请求协议[自动测试/常规配置]
+     */
+    public static final String SCORPIO_PROTOCOL = "http://";
+
+    /**
      * 默认地址[自动测试/常规配置]
      */
     public static String DEFAULT_ADDRESS = "127.0.0.1";
@@ -30,6 +35,11 @@ public class ScorpioConfig {
      * URI[根路径]
      */
     public static String URI_ROOT = "/";
+
+    /**
+     * 文件夹名称[ROOT文件夹]
+     */
+    public static final String FOLDER_ROOT_NAME = "ROOT";
 
     /**
      * 页面[timeConsume.html]
@@ -47,6 +57,31 @@ public class ScorpioConfig {
     public static final String MSG_WELCOME = "Hi, Welcome to Scorpio!";
 
     /**
+     * 信息[Web应用部署成功]
+     */
+    public static final String MSG_DEPLOY_FINISH = "Scorpio's web application has been deployed at path [{}], and the access path is {}{}:{}{}, which takes {} milliseconds in total";
+
+    /**
+     * 信息[加载Web应用个数]
+     */
+    public static final String MSG_LOAD_APP_CONTEXT_COUNT = "load application {} into context";
+
+    /**
+     * 信息[Scorpio启动成功]
+     */
+    public static final String MSG_SCORPIO_STARTED = "Scorpio started successfully, listening on port [io-{}]";
+
+    /**
+     * 信息[修正Uri]
+     */
+    public static final String MSG_FIX_URI_APP = "URI correction successful [{}] -> [{}]";
+
+    /**
+     * 信息[ROOT程序不修正Uri]
+     */
+    public static final String MSG_FIX_URI_ROOT_APP = "Access the ROOT app without corrections";
+
+    /**
      * 符号[\t\t]
      */
     public static final String SYMBOL_TAB_TAB = "\t\t";
@@ -57,12 +92,12 @@ public class ScorpioConfig {
     public static final String SYMBOL_COLON = ":";
 
     /**
-     * 静态文件路径[WEBAPPS_FOLDER]
+     * Web程序存放目录[WEBAPPS_FOLDER]
      */
     public final static File WEBAPPS_FOLDER = new File(SystemUtil.get("user.dir"), "webapps");
 
     /**
-     * 静态文件路径[ROOT_FOLDER]
+     * Web程序的根目录[ROOT_FOLDER]
      */
     public final static File ROOT_FOLDER = new File(WEBAPPS_FOLDER, "ROOT");
 

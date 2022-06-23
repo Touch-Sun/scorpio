@@ -23,6 +23,9 @@ public class ScorpioApplication {
             // 启动Scorpio日志
             Core.jvmLog();
 
+            // 加载Web应用程序上下文
+            Core.loadApplicationContext();
+
             // 开启服务器套接字通讯
             ServerSocket serverSocket = Core.buildConnect();
 
