@@ -1,18 +1,16 @@
 package com.touchsun.scorpio.core.plugin;
 
-import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 线程助手
+ * 线程执行器
  * @author Lee
  */
-public class ThreadHelper {
+public class ThreadActuator {
 
     private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(
             // 核心线程数
