@@ -7,8 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
+import com.touchsun.scorpio.core.plugin.AppXMLParser;
 import com.touchsun.scorpio.core.web.Request;
 import com.touchsun.scorpio.core.web.Response;
+import com.touchsun.scorpio.exception.ExceptionMessage;
+import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Scorpio内核
@@ -33,9 +37,29 @@ public class Core {
     public static Map<String, Context> appContext = new HashMap<>();
 
     /**
-     * 加载Web应用到上下文
+     * 加载Web应用到上下文[webApps目录下]
      */
-    public static void loadApplicationContext() {
+    public static void loadApplicationContext() throws ScorpioNormalException {
+        switch (ScorpioConfig.DEFAULT_LOAD_CONTEXT_STRATEGY) {
+            case APP:
+                loadApplicationContextFormWebAppsFolder();
+                break;
+            case XML:
+                loadApplicationContextFromServerXml();
+                break;
+            case ALL:
+                loadApplicationContextFormWebAppsFolder();
+                loadApplicationContextFromServerXml();
+                break;
+            default:
+                throw new ScorpioNormalException(ExceptionMessage.LOAD_STRATEGY_EXCEPTION);
+        }
+    }
+
+    /**
+     * 加载Web应用到上下文[webApps目录下]
+     */
+    public static void loadApplicationContextFormWebAppsFolder() {
         // 获取WebApps下的所有文件/文件夹
         File[] files = ScorpioConfig.WEBAPPS_FOLDER.listFiles();
         int count = 0;
@@ -55,7 +79,19 @@ public class Core {
                 count++;
             }
         }
-        LogFactory.get().debug(ScorpioConfig.MSG_LOAD_APP_CONTEXT_COUNT, count);
+        LogFactory.get().debug(ScorpioConfig.MSG_LOAD_APP_CONTEXT_COUNT_WEB_APP_FOLDER, count);
+    }
+
+    /**
+     * 加载Web应用到上下文[server.xml配置文件中]
+     */
+    public static void loadApplicationContextFromServerXml() {
+        AtomicInteger count = new AtomicInteger();
+        AppXMLParser.parseContexts().forEach(context -> {
+            appContext.put(context.getPath(), context);
+            count.getAndIncrement();
+        });
+        LogFactory.get().debug(ScorpioConfig.MSG_LOAD_APP_CONTEXT_COUNT_SERVER_XML, count);
     }
 
     /**
