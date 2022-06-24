@@ -77,10 +77,22 @@ public class TestScorpio {
         }
     }
 
+    /**
+     * 测试webApps目录下配置的新App
+     */
     @Test
     public void testNumbersAppScorpio() {
         String html = getContent("/numbers/index.html");
         Assert.assertEquals(html, "This is the numbers' app!");
+    }
+
+    /**
+     * 测试server.xml配置的App
+     */
+    @Test
+    public void testXMLAppScorpio() {
+        String html = getContent("/score/index.html");
+        Assert.assertEquals(html, "This is a configuration type application of score!");
     }
 
     /**
