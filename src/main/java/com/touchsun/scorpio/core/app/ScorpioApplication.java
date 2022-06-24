@@ -1,7 +1,8 @@
 package com.touchsun.scorpio.core.app;
 
 import cn.hutool.log.LogFactory;
-import com.touchsun.scorpio.core.plugin.ThreadHelper;
+import com.touchsun.scorpio.core.plugin.ThreadActuator;
+import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -34,7 +35,7 @@ public class ScorpioApplication {
                 // 收到的浏览器的一个请求
                 Socket socket = serverSocket.accept();
                 // 向线程池提交处理请求任务
-                ThreadHelper.run(() -> {
+                ThreadActuator.run(() -> {
                     try {
                         Core.handleRequest(socket);
                     } catch (IOException e) {
@@ -44,7 +45,7 @@ public class ScorpioApplication {
                 });
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ScorpioNormalException e) {
             e.printStackTrace();
             LogFactory.get().error(e);
         }

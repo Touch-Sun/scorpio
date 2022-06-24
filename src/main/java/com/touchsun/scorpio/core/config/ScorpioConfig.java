@@ -2,6 +2,7 @@ package com.touchsun.scorpio.core.config;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.system.SystemUtil;
+import com.touchsun.scorpio.core.constant.LoadStrategy;
 
 import java.io.File;
 
@@ -32,6 +33,27 @@ public class ScorpioConfig {
     public static final String DEFAULT_THREAD_NAME = "scorpio-thread-";
 
     /**
+     * 默认配置文件元素节点名称[Context]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME = "Context";
+
+    /**
+     * 默认配置文件元素节点属性名称[path]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_PATH_NAME = "path";
+
+    /**
+     * 默认配置文件元素节点属性名称[appPath]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_APP_PATH_NAME = "appPath";
+
+    /**
+     * 默认程序加载策略[ALL]
+     * 详细信息参照 @LoadStrategy
+     */
+    public static final LoadStrategy DEFAULT_LOAD_CONTEXT_STRATEGY = LoadStrategy.ALL;
+
+    /**
      * URI[根路径]
      */
     public static String URI_ROOT = "/";
@@ -40,6 +62,11 @@ public class ScorpioConfig {
      * 文件夹名称[ROOT文件夹]
      */
     public static final String FOLDER_ROOT_NAME = "ROOT";
+
+    /**
+     * 文件名称[server.xml]
+     */
+    public static final String SERVER_XML_NAME = "server.xml";
 
     /**
      * 页面[timeConsume.html]
@@ -62,9 +89,14 @@ public class ScorpioConfig {
     public static final String MSG_DEPLOY_FINISH = "Scorpio's web application has been deployed at path [{}], and the access path is {}{}:{}{}, which takes {} milliseconds in total";
 
     /**
-     * 信息[加载Web应用个数]
+     * 信息[加载Web应用个数,从webApps目录下]
      */
-    public static final String MSG_LOAD_APP_CONTEXT_COUNT = "load application {} into context";
+    public static final String MSG_LOAD_APP_CONTEXT_COUNT_WEB_APP_FOLDER = "load application {} into context from \"webApps\" folder";
+
+    /**
+     * 信息[加载Web应用个数,从server.xml配置中]
+     */
+    public static final String MSG_LOAD_APP_CONTEXT_COUNT_SERVER_XML = "load application {} into context from \"server.xml\" config";
 
     /**
      * 信息[Scorpio启动成功]
@@ -97,12 +129,23 @@ public class ScorpioConfig {
     public final static File WEBAPPS_FOLDER = new File(SystemUtil.get("user.dir"), "webapps");
 
     /**
-     * Web程序的根目录[ROOT_FOLDER]
+     * 根Web程序的目录[ROOT_FOLDER]
      */
     public final static File ROOT_FOLDER = new File(WEBAPPS_FOLDER, "ROOT");
 
+    /**
+     * 配置文件存放目录[config]
+     */
+    public final static File  CONFIG_FOLDER = new File(SystemUtil.get("user.dir"), "config");
+
+    /**
+     * 配置文件[server.xml]
+     */
+    public final static File SERVER_XML_FILE = new File(CONFIG_FOLDER, SERVER_XML_NAME);
+
     ///////////////////////////////////////////////////////////////////////////
     // Scorpio虚拟机信息
+    //////////////////////////////////////////////////////////////////////////
     public static final String JVM_SERVER_VERSION_FILED = "Server Version";
     public static final String JVM_SERVER_VERSION_VALUE = "Scorpio/0.0.1";
 
