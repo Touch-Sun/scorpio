@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Server>
-    <!--配置型应用[score]-->
-    <Context path="/score" appPath="C:/Project/github/scorpio/example/score"/>
-    <!--配置型应用[student]-->
-    <Context path="/student" appPath="C:/Project/github/scorpio/example/student"/>
+    <!--虚拟主机-->
+    <Host name="localhost">
+        <!--配置型应用[score]-->
+        <Context path="/score" appPath="C:/Project/github/scorpio/example/score"/>
+        <!--配置型应用[student]-->
+        <Context path="/student" appPath="C:/Project/github/scorpio/example/student"/>
+    </Host>
 </Server>

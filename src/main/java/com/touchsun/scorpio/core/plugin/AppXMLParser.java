@@ -28,7 +28,7 @@ public class AppXMLParser {
         // 解析成Document
         Document document = Jsoup.parse(serverXmlInfo);
         // 获取Context节点
-        Elements elements = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME);
+        Elements elements = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_CONTEXT);
         // 遍历每一个Context,构造Context,存贮到contextList中
         for (Element element : elements) {
             String path = element.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_PATH_NAME);
@@ -36,5 +36,20 @@ public class AppXMLParser {
             contextList.add(new Context(path, appPath));
         }
         return contextList;
+    }
+
+    /**
+     * 解析配置文件,提取Host
+     * @return Host的属性name的值 [localhost]
+     */
+    public static String parseHost() {
+        // 读取出配置文件[server.xml]全部内容
+        String serverXmlInfo = FileUtil.readUtf8String(ScorpioConfig.SERVER_XML_FILE);
+        // 解析成Document
+        Document document = Jsoup.parse(serverXmlInfo);
+        // 获取Host节点
+        Element host = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_HOST).first();
+        // 返回属性名称
+        return host.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_NAME_NAME);
     }
 }
