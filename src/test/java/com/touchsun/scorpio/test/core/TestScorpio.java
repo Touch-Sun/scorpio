@@ -81,7 +81,7 @@ public class TestScorpio {
      * 测试webApps目录下配置的新App
      */
     @Test
-    public void testNumbersAppScorpio() {
+    public void testLocalAppScorpio() {
         String html = getContent("/numbers/index.html");
         Assert.assertEquals(html, "This is the numbers' app!");
     }
