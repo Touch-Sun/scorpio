@@ -3,6 +3,7 @@ package com.touchsun.scorpio.core.web;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.app.Context;
+import com.touchsun.scorpio.core.app.Engine;
 import com.touchsun.scorpio.core.app.Host;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.plugin.VirtualBrowser;
@@ -37,9 +38,9 @@ public class Request {
     private Socket socket;
 
     /**
-     * 虚拟主机
+     * Scorpio引擎
      */
-    private Host host;
+    private Engine engine;
 
     /**
      * 应用程序上下文
@@ -47,9 +48,9 @@ public class Request {
     @Getter
     private Context appContext;
 
-    public Request(Socket socket, Host host) throws IOException {
+    public Request(Socket socket, Engine engine) throws IOException {
         this.socket = socket;
-        this.host = host;
+        this.engine = engine;
         parseHttpRequest();
         if (!StrUtil.isEmpty(requestContent)) {
             // 解析URI
@@ -118,10 +119,10 @@ public class Request {
             path = ScorpioConfig.URI_ROOT + path;
         }
         // 获取上下文实例
-        appContext = host.getContext(path);
+        appContext = engine.getDefaultHost().getContext(path);
         if (null == appContext) {
             // 未获取到,直接使用根[ROOT]
-            appContext = host.getContext(ScorpioConfig.URI_ROOT);
+            appContext = engine.getDefaultHost().getContext(ScorpioConfig.URI_ROOT);
         }
     }
 }
