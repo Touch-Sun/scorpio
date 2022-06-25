@@ -2,7 +2,10 @@ package com.touchsun.scorpio.core.plugin;
 
 import cn.hutool.core.io.FileUtil;
 import com.touchsun.scorpio.core.app.Context;
+import com.touchsun.scorpio.core.app.Engine;
+import com.touchsun.scorpio.core.app.Host;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
+import com.touchsun.scorpio.exception.ScorpioNormalException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -39,10 +42,10 @@ public class AppXMLParser {
     }
 
     /**
-     * 解析配置文件,提取Host
+     * 解析配置文件,提取Host属性
      * @return Host的属性name的值 [localhost]
      */
-    public static String parseHost() {
+    public static String parseHostName() {
         // 读取出配置文件[server.xml]全部内容
         String serverXmlInfo = FileUtil.readUtf8String(ScorpioConfig.SERVER_XML_FILE);
         // 解析成Document
@@ -52,4 +55,56 @@ public class AppXMLParser {
         // 返回属性名称
         return host.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_NAME_NAME);
     }
+
+    /**
+     * 解析配置文件,提取Engine属性
+     * @return Engine的属性defaultHost的值 [localhost]
+     */
+    public static String parseEngineDefaultHost() {
+        // 读取出配置文件[server.xml]全部内容
+        String serverXmlInfo = FileUtil.readUtf8String(ScorpioConfig.SERVER_XML_FILE);
+        // 解析成Document
+        Document document = Jsoup.parse(serverXmlInfo);
+        // 获取Host节点
+        Element engine = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_ENGINE).first();
+        // 返回属性名称
+        return engine.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_DEFAULT_HOST_NAME);
+    }
+
+    public static List<Host> parseHosts(Engine engine) throws ScorpioNormalException {
+        List<Host> hostList = new ArrayList<>();
+        // 读取出配置文件[server.xml]全部内容
+        String serverXmlInfo = FileUtil.readUtf8String(ScorpioConfig.SERVER_XML_FILE);
+        // 解析成Document
+        Document document = Jsoup.parse(serverXmlInfo);
+        // 获取Host节点
+        Elements elements = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_HOST);
+        // 遍历每一个Host,构造Host
+        for (Element element : elements) {
+            String name = element.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_NAME_NAME);
+            hostList.add(new Host(name, engine));
+        }
+        return hostList;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
