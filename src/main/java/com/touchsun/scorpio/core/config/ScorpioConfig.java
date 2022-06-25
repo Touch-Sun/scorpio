@@ -35,7 +35,12 @@ public class ScorpioConfig {
     /**
      * 默认配置文件元素节点名称[Context]
      */
-    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME = "Context";
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_CONTEXT = "Context";
+
+    /**
+     * 默认配置文件元素节点名称[Host]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_HOST = "Host";
 
     /**
      * 默认配置文件元素节点属性名称[path]
@@ -46,6 +51,11 @@ public class ScorpioConfig {
      * 默认配置文件元素节点属性名称[appPath]
      */
     public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_APP_PATH_NAME = "appPath";
+
+    /**
+     * 默认配置文件元素节点属性名称[name]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_NAME_NAME = "name";
 
     /**
      * 默认程序加载策略[ALL]

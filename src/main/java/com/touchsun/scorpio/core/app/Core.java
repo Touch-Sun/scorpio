@@ -7,11 +7,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
-import com.touchsun.scorpio.core.plugin.AppXMLParser;
 import com.touchsun.scorpio.core.web.Request;
 import com.touchsun.scorpio.core.web.Response;
-import com.touchsun.scorpio.exception.ExceptionMessage;
-import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,80 +16,15 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Scorpio内核
  * @author Lee
  */
 public class Core {
-
-    /**
-     * 访问路径 -> Context
-     */
-    public static Map<String, Context> appContext = new HashMap<>();
-
-    /**
-     * 加载Web应用到上下文[webApps目录下]
-     */
-    public static void loadApplicationContext() throws ScorpioNormalException {
-        switch (ScorpioConfig.DEFAULT_LOAD_CONTEXT_STRATEGY) {
-            case APP:
-                loadApplicationContextFormWebAppsFolder();
-                break;
-            case XML:
-                loadApplicationContextFromServerXml();
-                break;
-            case ALL:
-                loadApplicationContextFormWebAppsFolder();
-                loadApplicationContextFromServerXml();
-                break;
-            default:
-                throw new ScorpioNormalException(ExceptionMessage.LOAD_STRATEGY_EXCEPTION);
-        }
-    }
-
-    /**
-     * 加载Web应用到上下文[webApps目录下]
-     */
-    public static void loadApplicationContextFormWebAppsFolder() {
-        // 获取WebApps下的所有文件/文件夹
-        File[] files = ScorpioConfig.WEBAPPS_FOLDER.listFiles();
-        int count = 0;
-        for (File file : files) {
-            // 目录代表是一个App
-            if (file.isDirectory()) {
-                String path = file.getName();
-                if (StrUtil.equals(ScorpioConfig.FOLDER_ROOT_NAME, path)) {
-                    // ROOT文件夹的访问路径默认为 "/"
-                    path = ScorpioConfig.URI_ROOT;
-                } else {
-                    // App的访问路径 "/" + folder name -> "/numbers"
-                    path = ScorpioConfig.URI_ROOT + path;
-                }
-                // 存储到上下文Map
-                appContext.put(path, new Context(path, file.getAbsolutePath()));
-                count++;
-            }
-        }
-        LogFactory.get().debug(ScorpioConfig.MSG_LOAD_APP_CONTEXT_COUNT_WEB_APP_FOLDER, count);
-    }
-
-    /**
-     * 加载Web应用到上下文[server.xml配置文件中]
-     */
-    public static void loadApplicationContextFromServerXml() {
-        AtomicInteger count = new AtomicInteger();
-        AppXMLParser.parseContexts().forEach(context -> {
-            appContext.put(context.getPath(), context);
-            count.getAndIncrement();
-        });
-        LogFactory.get().debug(ScorpioConfig.MSG_LOAD_APP_CONTEXT_COUNT_SERVER_XML, count);
-    }
 
     /**
      * 构建服务器通讯
@@ -109,11 +41,12 @@ public class Core {
     /**
      * 处理请求
      * @param socket 客户端连接
+     * @param host 虚拟主机
      * @throws IOException IO异常
      */
-    public static void handleRequest(Socket socket) throws IOException {
+    public static void handleRequest(Socket socket, Host host) throws IOException {
         // 实例化Request对象解析Http,处理输入数据(请求)
-        Request request = new Request(socket);
+        Request request = new Request(socket, host);
         requestLog(request);
 
         // 实例化Response对象,处理输出数据(响应)
