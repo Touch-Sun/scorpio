@@ -28,20 +28,24 @@ public class Host {
     private String name;
 
     /**
+     * Scorpio引擎
+     */
+    private Engine engine;
+
+    /**
      * 访问路径 -> Context
      */
     public Map<String, Context> appContext;
 
-    public Host() throws ScorpioNormalException {
+    public Host(String name, Engine engine) throws ScorpioNormalException {
         // 初始化[name][appContext]
         this.appContext = new HashMap<>();
-        this.name = AppXMLParser.parseHost();
+        // 通过引擎解析来设置
+        this.name = name;
+        // 设置引擎
+        this.engine = engine;
         // 扫描应用到上下文
         loadApplicationContext();
-    }
-
-    public static Host instance() throws ScorpioNormalException {
-        return new Host();
     }
 
     /**
