@@ -40,6 +40,10 @@ public class Host {
         loadApplicationContext();
     }
 
+    public static Host instance() throws ScorpioNormalException {
+        return new Host();
+    }
+
     /**
      * 加载Web应用到上下文[webApps目录下]
      */

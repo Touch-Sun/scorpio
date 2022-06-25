@@ -25,7 +25,7 @@ public class ScorpioApplication {
             Core.jvmLog();
 
             // 加载Web应用程序上下文,在Host内执行
-            Host host = new Host();
+            Host host = Host.instance();
 
             // 开启服务器套接字通讯
             ServerSocket serverSocket = Core.buildConnect();
