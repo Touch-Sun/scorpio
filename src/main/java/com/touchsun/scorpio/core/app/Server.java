@@ -57,7 +57,7 @@ public class Server {
                 ThreadActuator.run(() -> {
                     try {
                         this.core.handleRequest(socket, service);
-                    } catch (IOException e) {
+                    } catch (IOException | ScorpioNormalException e) {
                         e.printStackTrace();
                         LogFactory.get().error(e);
                     }

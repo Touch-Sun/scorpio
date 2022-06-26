@@ -7,8 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
+import com.touchsun.scorpio.core.constant.ResponseStatus;
 import com.touchsun.scorpio.core.web.Request;
 import com.touchsun.scorpio.core.web.Response;
+import com.touchsun.scorpio.exception.ExceptionMessage;
+import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +51,7 @@ public class Core {
      * @param service Scorpio服务
      * @throws IOException IO异常
      */
-    public void handleRequest(Socket socket, Service service) throws IOException {
+    public void handleRequest(Socket socket, Service service) throws IOException, ScorpioNormalException {
         // 实例化Request对象解析Http,处理输入数据(请求)
         Request request = new Request(socket, service);
         requestLog(request);
@@ -79,26 +82,49 @@ public class Core {
                 String fileContent = FileUtil.readUtf8String(file);
                 // 写入响应对象
                 response.getPrintWriter().println(fileContent);
+                this.reply(socket, response, ResponseStatus._200);
             } else {
                 // 写入[文件未找到信息]
-                response.getPrintWriter().println(ScorpioConfig.MSG_FILE_NOT_FOUND);
+                response.getPrintWriter().println(ResponseConstant.RESPONSE_404_HTML);
+                this.reply(socket, response, ResponseStatus._404);
             }
         }
 
-        // 响应流
-        reply200(socket,response);
-        responseLog(response);
+        // 响应日志
+        this.responseLog(response);
     }
 
     /**
-     * 响应200
+     * 响应
      * @param socket 客户端连接
+     * @param responseStatus 响应状态
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    public void reply200(Socket socket, Response response) throws IOException {
-        // 构建头部信息
-        String header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, ResponseConstant.TEXT_HTML);
+    public void reply(Socket socket, Response response, ResponseStatus responseStatus) throws IOException, ScorpioNormalException {
+        // 根据响应类型构建响应头
+        String header;
+        switch (responseStatus) {
+            case _200:
+                header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, ResponseConstant.TEXT_HTML);
+            break;
+            case _404:
+                header = ResponseConstant.RESPONSE_404_HEADER;
+                break;
+            default:
+                throw new ScorpioNormalException(ExceptionMessage.RESPONSE_STATUS_NOT_EXIST_EXCEPTION);
+        }
+        this.reply(socket, response, header);
+    }
+
+    /**
+     * 响应
+     * @param socket 客户端连接
+     * @param header 响应头
+     * @param response 响应对象
+     * @throws IOException IO异常
+     */
+    private void reply(Socket socket, Response response, String header) throws IOException {
         // 解析头部/身体的字节信息
         byte[] headerBytes = header.getBytes();
         byte[] bodyBytes = response.getBody();
