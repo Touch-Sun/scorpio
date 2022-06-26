@@ -41,12 +41,12 @@ public class Core {
     /**
      * 处理请求
      * @param socket 客户端连接
-     * @param engine Scorpio引擎
+     * @param service Scorpio服务
      * @throws IOException IO异常
      */
-    public static void handleRequest(Socket socket, Engine engine) throws IOException {
+    public static void handleRequest(Socket socket, Service service) throws IOException {
         // 实例化Request对象解析Http,处理输入数据(请求)
-        Request request = new Request(socket, engine);
+        Request request = new Request(socket, service);
         requestLog(request);
 
         // 实例化Response对象,处理输出数据(响应)
