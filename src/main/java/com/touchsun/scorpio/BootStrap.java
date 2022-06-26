@@ -3,7 +3,7 @@ package com.touchsun.scorpio;
 import com.touchsun.scorpio.core.app.ScorpioApplication;
 
 /**
- * 启动类
+ * Scorpio引导类
  * @author Lee
  */
 public class BootStrap {
