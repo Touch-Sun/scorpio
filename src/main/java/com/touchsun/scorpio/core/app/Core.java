@@ -26,12 +26,16 @@ import java.util.Set;
  */
 public class Core {
 
+    public static Core instance() {
+        return new Core();
+    }
+
     /**
      * 构建服务器通讯
      * @return serverSocket
      * @throws IOException IO异常
      */
-    public static ServerSocket buildConnect() throws IOException {
+    public ServerSocket buildConnect() throws IOException {
         Integer port = ScorpioConfig.DEFAULT_PORT;
         ServerSocket serverSocket = new ServerSocket(port);
         LogFactory.get().info(ScorpioConfig.MSG_SCORPIO_STARTED, port);
@@ -44,7 +48,7 @@ public class Core {
      * @param service Scorpio服务
      * @throws IOException IO异常
      */
-    public static void handleRequest(Socket socket, Service service) throws IOException {
+    public void handleRequest(Socket socket, Service service) throws IOException {
         // 实例化Request对象解析Http,处理输入数据(请求)
         Request request = new Request(socket, service);
         requestLog(request);
@@ -92,9 +96,9 @@ public class Core {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    public static void reply200(Socket socket, Response response) throws IOException {
+    public void reply200(Socket socket, Response response) throws IOException {
         // 构建头部信息
-        String header = StrUtil.format(ResponseConstant.RESPONSE_200, ResponseConstant.TEXT_HTML);
+        String header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, ResponseConstant.TEXT_HTML);
         // 解析头部/身体的字节信息
         byte[] headerBytes = header.getBytes();
         byte[] bodyBytes = response.getBody();
@@ -115,7 +119,7 @@ public class Core {
     /**
      * Scorpio启动日志
      */
-    public static void jvmLog() {
+    public void jvmLog() {
         Map<String, String> infos = new LinkedHashMap<>(15);
         infos.put(ScorpioConfig.JVM_SERVER_VERSION_FILED, ScorpioConfig.JVM_SERVER_VERSION_VALUE);
         infos.put(ScorpioConfig.JVM_SERVER_BUILD_TIME_FIELD, ScorpioConfig.JVM_SERVER_BUILD_TIME_VALUE);
@@ -137,7 +141,7 @@ public class Core {
      * Request组件请求信息
      * @param request request 组件
      */
-    public static void requestLog(Request request) {
+    public void requestLog(Request request) {
         LogFactory.get().info("Scorpio收到请求：\n" + request.getRequestContent());
     }
 
@@ -145,7 +149,7 @@ public class Core {
      * Response组件响应信息
      * @param response response 组件
      */
-    public static void responseLog(Response response) {
+    public void responseLog(Response response) {
         LogFactory.get().info("Scorpio进行应答: " + new String(response.getBody(), StandardCharsets.UTF_8));
     }
 }

@@ -19,19 +19,25 @@ public class Server {
      */
     private Service service;
 
-    public Server() throws ScorpioNormalException {
+    /**
+     * Scorpio内核
+     */
+    private Core core;
+
+    public Server(Core core) throws ScorpioNormalException {
         this.service = Service.instance(this);
+        this.core = core;
     }
 
-    public static Server instance() throws ScorpioNormalException {
-        return new Server();
+    public static Server instance(Core core) throws ScorpioNormalException {
+        return new Server(core);
     }
 
     /**
      * 启动Scorpio服务
      */
     public void start() {
-        Core.jvmLog();
+        this.core.jvmLog();
         this.initialize();
     }
 
@@ -41,7 +47,7 @@ public class Server {
     public void initialize() {
         try {
             // 开启服务器套接字通讯
-            ServerSocket serverSocket = Core.buildConnect();
+            ServerSocket serverSocket = this.core.buildConnect();
 
             // 循环：处理一个socket连接后在处理下一个
             while (true) {
@@ -50,7 +56,7 @@ public class Server {
                 // 向线程池提交处理请求任务
                 ThreadActuator.run(() -> {
                     try {
-                        Core.handleRequest(socket, service);
+                        this.core.handleRequest(socket, service);
                     } catch (IOException e) {
                         e.printStackTrace();
                         LogFactory.get().error(e);
