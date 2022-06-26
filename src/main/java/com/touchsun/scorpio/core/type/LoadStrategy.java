@@ -1,4 +1,4 @@
-package com.touchsun.scorpio.core.constant;
+package com.touchsun.scorpio.core.type;
 
 /**
  * 程序加载策略

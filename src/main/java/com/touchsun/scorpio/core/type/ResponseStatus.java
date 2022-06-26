@@ -1,4 +1,4 @@
-package com.touchsun.scorpio.core.constant;
+package com.touchsun.scorpio.core.type;
 
 /**
  * 响应状态码

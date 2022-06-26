@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.constant.ResponseConstant;
-import com.touchsun.scorpio.core.constant.ResponseStatus;
+import com.touchsun.scorpio.core.type.ResponseStatus;
 import com.touchsun.scorpio.core.web.Request;
 import com.touchsun.scorpio.core.web.Response;
 import com.touchsun.scorpio.exception.ExceptionMessage;
@@ -58,7 +58,6 @@ public class Core {
 
         // 实例化Response对象,处理输出数据(响应)
         Response response = new Response();
-
 
         // 根据URI返回资源
         String uri = request.getUri();
