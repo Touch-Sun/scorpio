@@ -24,8 +24,8 @@ public class ScorpioApplication {
             // 启动Scorpio日志
             Core.jvmLog();
 
-            // 初始化引擎
-            Engine engine = Engine.instance();
+            // 初始化Scorpio服务
+            Service service = Service.instance();
 
             // 开启服务器套接字通讯
             ServerSocket serverSocket = Core.buildConnect();
@@ -37,7 +37,7 @@ public class ScorpioApplication {
                 // 向线程池提交处理请求任务
                 ThreadActuator.run(() -> {
                     try {
-                        Core.handleRequest(socket, engine);
+                        Core.handleRequest(socket, service);
                     } catch (IOException e) {
                         e.printStackTrace();
                         LogFactory.get().error(e);
