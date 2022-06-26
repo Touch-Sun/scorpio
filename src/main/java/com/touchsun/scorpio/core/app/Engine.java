@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.touchsun.scorpio.core.plugin.AppXMLParser;
 import com.touchsun.scorpio.exception.ExceptionMessage;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -23,17 +24,25 @@ public class Engine {
      */
     private List<Host> hostList;
 
-    public Engine() throws ScorpioNormalException {
+    /**
+     * Scorpio引擎
+     */
+    @Getter
+    private Service service;
+
+    public Engine(Service service) throws ScorpioNormalException {
         // 从应用解析器解析[defaultHost]
         this.defaultHost = AppXMLParser.parseEngineDefaultHost();
         // 从应用解析器解析[hostList]
         this.hostList = AppXMLParser.parseHosts(this);
+        // 赋值Service
+        this.service = service;
         // 检测解析正确性
         this.checkParse();
     }
 
-    public static Engine instance() throws ScorpioNormalException {
-        return new Engine();
+    public static Engine instance(Service service) throws ScorpioNormalException {
+        return new Engine(service);
     }
 
     /**
