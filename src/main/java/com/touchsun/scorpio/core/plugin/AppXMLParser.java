@@ -57,6 +57,21 @@ public class AppXMLParser {
     }
 
     /**
+     * 解析配置文件,提取Service属性
+     * @return Service的属性name的值 [Catalina]
+     */
+    public static String parseServiceName() {
+        // 读取出配置文件[server.xml]全部内容
+        String serverXmlInfo = FileUtil.readUtf8String(ScorpioConfig.SERVER_XML_FILE);
+        // 解析成Document
+        Document document = Jsoup.parse(serverXmlInfo);
+        // 获取Host节点
+        Element service = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_SERVICE).first();
+        // 返回属性名称
+        return service.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_NAME_NAME);
+    }
+
+    /**
      * 解析配置文件,提取Engine属性
      * @return Engine的属性defaultHost的值 [localhost]
      */
@@ -71,6 +86,9 @@ public class AppXMLParser {
         return engine.attr(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_DEFAULT_HOST_NAME);
     }
 
+    /**
+     * 在Engine节点下解析出Host节点列表[暂时仅支持一个Host]
+     */
     public static List<Host> parseHosts(Engine engine) throws ScorpioNormalException {
         List<Host> hostList = new ArrayList<>();
         // 读取出配置文件[server.xml]全部内容
