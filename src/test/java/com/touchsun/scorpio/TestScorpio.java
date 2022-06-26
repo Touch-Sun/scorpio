@@ -1,4 +1,4 @@
-package com.touchsun.scorpio.test.core;
+package com.touchsun.scorpio;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
@@ -96,7 +96,18 @@ public class TestScorpio {
     }
 
     /**
-     * 调用虚拟浏览器请求Scorpio
+     * 测试访问不存在的文件[notExist.html],时Scorpio的响应情况
+     */
+    @Test
+    public void testNotExistScorpio() {
+        // 访问一个不存在的文件,查看Http的响应信息
+        String html = getHttpContent("/notExist.html");
+        boolean match  = StrUtil.containsAny(html, "HTTP/1.1 404 Not Found");
+        Assert.assertTrue(match);
+    }
+
+    /**
+     * 调用虚拟浏览器请求Scorpio[返回Body信息]
      * @param uri URI
      * @return HTML
      */
@@ -104,6 +115,17 @@ public class TestScorpio {
         String url = StrUtil.format("http://{}:{}{}",
                 ScorpioConfig.DEFAULT_ADDRESS, ScorpioConfig.DEFAULT_PORT, uri);
         return VirtualBrowser.getContent(url);
+    }
+
+    /**
+     * 调用虚拟浏览器请求Scorpio[返回Http全部信息]
+     * @param uri URI
+     * @return HTML
+     */
+    public String getHttpContent(String uri) {
+        String url = StrUtil.format("http://{}:{}{}",
+                ScorpioConfig.DEFAULT_ADDRESS, ScorpioConfig.DEFAULT_PORT, uri);
+        return VirtualBrowser.getHttpContent(url);
     }
 
     /**

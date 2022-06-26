@@ -67,6 +67,7 @@ public class Core {
         if (ScorpioConfig.URI_ROOT.equals(uri)) {
             // "/"根路径返回欢迎内容
             response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
+            this.reply(socket, response, ResponseStatus._200);
         } else {
             // 去除"/"得到文件名称 [/hello.html -> hello.html]
             String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
@@ -84,7 +85,8 @@ public class Core {
                 this.reply(socket, response, ResponseStatus._200);
             } else {
                 // 写入[文件未找到信息]
-                response.getPrintWriter().println(ResponseConstant.RESPONSE_404_HTML);
+                String responseMessage = StrUtil.format(ResponseConstant.RESPONSE_404_HTML, uri, uri);
+                response.getPrintWriter().println(responseMessage);
                 this.reply(socket, response, ResponseStatus._404);
             }
         }
