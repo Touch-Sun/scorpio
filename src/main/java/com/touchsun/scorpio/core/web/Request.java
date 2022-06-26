@@ -5,6 +5,7 @@ import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.core.app.Context;
 import com.touchsun.scorpio.core.app.Engine;
 import com.touchsun.scorpio.core.app.Host;
+import com.touchsun.scorpio.core.app.Service;
 import com.touchsun.scorpio.core.config.ScorpioConfig;
 import com.touchsun.scorpio.core.plugin.VirtualBrowser;
 import lombok.Getter;
@@ -38,9 +39,9 @@ public class Request {
     private Socket socket;
 
     /**
-     * Scorpio引擎
+     * Scorpio服务
      */
-    private Engine engine;
+    private Service service;
 
     /**
      * 应用程序上下文
@@ -48,9 +49,9 @@ public class Request {
     @Getter
     private Context appContext;
 
-    public Request(Socket socket, Engine engine) throws IOException {
+    public Request(Socket socket, Service service) throws IOException {
         this.socket = socket;
-        this.engine = engine;
+        this.service = service;
         parseHttpRequest();
         if (!StrUtil.isEmpty(requestContent)) {
             // 解析URI
@@ -118,6 +119,8 @@ public class Request {
             // path -> ["/" + "numbers"] -> [/numbers]
             path = ScorpioConfig.URI_ROOT + path;
         }
+        // 从Scorpio服务中拿出Engine引擎处理
+        Engine engine = this.service.getEngine();
         // 获取上下文实例
         appContext = engine.getDefaultHost().getContext(path);
         if (null == appContext) {
