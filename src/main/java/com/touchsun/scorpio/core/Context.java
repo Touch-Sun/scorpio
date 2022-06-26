@@ -1,9 +1,9 @@
-package com.touchsun.scorpio.core.app;
+package com.touchsun.scorpio.core;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.log.LogFactory;
-import com.touchsun.scorpio.core.config.ScorpioConfig;
+import com.touchsun.scorpio.config.ScorpioConfig;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package com.touchsun.scorpio.core.config;
+package com.touchsun.scorpio.config;
 
 /**
  * 虚拟浏览器配置

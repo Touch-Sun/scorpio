@@ -1,7 +1,7 @@
-package com.touchsun.scorpio.core.web;
+package com.touchsun.scorpio.web;
 
 import cn.hutool.log.LogFactory;
-import com.touchsun.scorpio.core.constant.ResponseConstant;
+import com.touchsun.scorpio.constant.ResponseConstant;
 import lombok.Getter;
 
 import java.io.PrintWriter;

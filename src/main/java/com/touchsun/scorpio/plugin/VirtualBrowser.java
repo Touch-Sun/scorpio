@@ -1,6 +1,6 @@
-package com.touchsun.scorpio.core.plugin;
+package com.touchsun.scorpio.plugin;
 
-import com.touchsun.scorpio.core.config.VirtualBrowserConfig;
+import com.touchsun.scorpio.config.VirtualBrowserConfig;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

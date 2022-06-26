@@ -1,6 +1,6 @@
-package com.touchsun.scorpio.core.plugin;
+package com.touchsun.scorpio.plugin;
 
-import com.touchsun.scorpio.core.config.ScorpioConfig;
+import com.touchsun.scorpio.config.ScorpioConfig;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

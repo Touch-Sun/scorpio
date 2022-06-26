@@ -1,8 +1,8 @@
-package com.touchsun.scorpio.core.config;
+package com.touchsun.scorpio.config;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.system.SystemUtil;
-import com.touchsun.scorpio.core.type.LoadStrategy;
+import com.touchsun.scorpio.type.LoadStrategy;
 
 import java.io.File;
 

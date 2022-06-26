@@ -1,10 +1,10 @@
-package com.touchsun.scorpio.core.plugin;
+package com.touchsun.scorpio.plugin;
 
 import cn.hutool.core.io.FileUtil;
-import com.touchsun.scorpio.core.app.Context;
-import com.touchsun.scorpio.core.app.Engine;
-import com.touchsun.scorpio.core.app.Host;
-import com.touchsun.scorpio.core.config.ScorpioConfig;
+import com.touchsun.scorpio.core.Context;
+import com.touchsun.scorpio.core.Engine;
+import com.touchsun.scorpio.core.Host;
+import com.touchsun.scorpio.config.ScorpioConfig;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

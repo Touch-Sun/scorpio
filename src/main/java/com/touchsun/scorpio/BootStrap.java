@@ -1,6 +1,6 @@
 package com.touchsun.scorpio;
 
-import com.touchsun.scorpio.core.app.ScorpioApplication;
+import com.touchsun.scorpio.core.ScorpioApplication;
 
 /**
  * Scorpio引导类

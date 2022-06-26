@@ -1,7 +1,7 @@
-package com.touchsun.scorpio.core.app;
+package com.touchsun.scorpio.core;
 
 import cn.hutool.core.util.StrUtil;
-import com.touchsun.scorpio.core.plugin.AppXMLParser;
+import com.touchsun.scorpio.plugin.AppXMLParser;
 import com.touchsun.scorpio.exception.ExceptionMessage;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 import lombok.Getter;

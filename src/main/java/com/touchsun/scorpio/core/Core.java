@@ -1,15 +1,15 @@
-package com.touchsun.scorpio.core.app;
+package com.touchsun.scorpio.core;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
-import com.touchsun.scorpio.core.config.ScorpioConfig;
-import com.touchsun.scorpio.core.constant.ResponseConstant;
-import com.touchsun.scorpio.core.type.ResponseStatus;
-import com.touchsun.scorpio.core.web.Request;
-import com.touchsun.scorpio.core.web.Response;
+import com.touchsun.scorpio.config.ScorpioConfig;
+import com.touchsun.scorpio.constant.ResponseConstant;
+import com.touchsun.scorpio.type.ResponseStatus;
+import com.touchsun.scorpio.web.Request;
+import com.touchsun.scorpio.web.Response;
 import com.touchsun.scorpio.exception.ExceptionMessage;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 

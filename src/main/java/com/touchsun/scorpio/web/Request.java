@@ -1,13 +1,12 @@
-package com.touchsun.scorpio.core.web;
+package com.touchsun.scorpio.web;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
-import com.touchsun.scorpio.core.app.Context;
-import com.touchsun.scorpio.core.app.Engine;
-import com.touchsun.scorpio.core.app.Host;
-import com.touchsun.scorpio.core.app.Service;
-import com.touchsun.scorpio.core.config.ScorpioConfig;
-import com.touchsun.scorpio.core.plugin.VirtualBrowser;
+import com.touchsun.scorpio.core.Context;
+import com.touchsun.scorpio.core.Engine;
+import com.touchsun.scorpio.core.Service;
+import com.touchsun.scorpio.config.ScorpioConfig;
+import com.touchsun.scorpio.plugin.VirtualBrowser;
 import lombok.Getter;
 
 import java.io.IOException;

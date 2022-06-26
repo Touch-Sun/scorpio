@@ -1,7 +1,7 @@
-package com.touchsun.scorpio.core.app;
+package com.touchsun.scorpio.core;
 
 import cn.hutool.log.LogFactory;
-import com.touchsun.scorpio.core.plugin.ThreadActuator;
+import com.touchsun.scorpio.plugin.ThreadActuator;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 import java.io.IOException;
