@@ -107,6 +107,17 @@ public class TestScorpio {
     }
 
     /**
+     * 测试访问主动异常页面[exception.html],时Scorpio的响应情况
+     */
+    @Test
+    public void testExceptionScorpio() {
+        // 访问一个不存在的文件,查看Http的响应信息
+        String html = getHttpContent("/exception.html");
+        boolean match  = StrUtil.containsAny(html, "HTTP/1.1 500 Internal Server Error");
+        Assert.assertTrue(match);
+    }
+
+    /**
      * 调用虚拟浏览器请求Scorpio[返回Body信息]
      * @param uri URI
      * @return HTML
