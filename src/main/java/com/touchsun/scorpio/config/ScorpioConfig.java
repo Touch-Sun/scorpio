@@ -131,7 +131,7 @@ public class ScorpioConfig {
     /**
      * 信息[Scorpio启动成功]
      */
-    public static final String MSG_SCORPIO_STARTED = "Scorpio started successfully, listening on port [io-{}]";
+    public static final String MSG_SCORPIO_STARTED = "Scorpio started successfully, listening on port [http-bio-{}]";
 
     /**
      * 信息[修正Uri]
