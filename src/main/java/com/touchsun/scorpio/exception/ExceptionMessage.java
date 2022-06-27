@@ -20,4 +20,9 @@ public class ExceptionMessage {
      * Scorpio引擎节点的配置有误 [内核异常]
      */
     public static final String PARSE_ENGINE_EXCEPTION = "Could not resolve Scorpio engine ENGINE because default Host[{}] does not exist!";
+
+    /**
+     * 主动创建了一个异常 [自定义触发异常]
+     */
+    public static final String CREATED_EXCEPTION = "Actively created an exception!";
 }
