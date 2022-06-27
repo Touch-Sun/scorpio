@@ -48,16 +48,11 @@ public class Core {
     /**
      * 处理请求
      * @param socket 客户端连接
-     * @param service Scorpio服务
      * @throws IOException IO异常
      */
-    public void handleRequest(Socket socket, Service service) throws IOException, ScorpioNormalException {
-        // 实例化Request对象解析Http,处理输入数据(请求)
-        Request request = new Request(socket, service);
+    public void handleRequest(Socket socket, Request request, Response response) throws IOException, ScorpioNormalException {
+        // 请求日志
         requestLog(request);
-
-        // 实例化Response对象,处理输出数据(响应)
-        Response response = new Response();
 
         // 根据URI返回资源
         String uri = request.getUri();
@@ -78,6 +73,10 @@ public class Core {
                 if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
                     ThreadUtil.sleep(2000);
                 }
+                // 模拟异常页面[主动抛出异常]
+                if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_EXCEPTION, fileName)) {
+                    throw new ScorpioNormalException(ExceptionMessage.CREATED_EXCEPTION);
+                }
                 // 读取文件内容
                 String fileContent = FileUtil.readUtf8String(file);
                 // 写入响应对象
@@ -96,7 +95,7 @@ public class Core {
     }
 
     /**
-     * 响应
+     * 响应[404/200]
      * @param socket 客户端连接
      * @param responseStatus 响应状态
      * @param response 响应对象
@@ -108,14 +107,15 @@ public class Core {
         switch (responseStatus) {
             case _200:
                 header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, ResponseConstant.TEXT_HTML);
+                this.reply(socket, response, header);
             break;
             case _404:
                 header = ResponseConstant.RESPONSE_404_HEADER;
+                this.reply(socket, response, header);
                 break;
             default:
                 throw new ScorpioNormalException(ExceptionMessage.RESPONSE_STATUS_NOT_EXIST_EXCEPTION);
         }
-        this.reply(socket, response, header);
     }
 
     /**
@@ -141,6 +141,40 @@ public class Core {
         outputStream.write(responseBytes);
         outputStream.flush();
         socket.close();
+    }
+
+    /**
+     * 响应[500]
+     * @param socket 客户端连接
+     * @param exception 异常
+     */
+    public void reply(Socket socket, Response response, Exception exception) throws IOException {
+        // 拿到异常的堆栈数组
+        StackTraceElement[] stackTraceElement = exception.getStackTrace();
+        // 循环拼接方法调用时产生的异常堆栈信息
+        StringBuilder stringBuilder = new StringBuilder();
+        // 先拼接主要的错误信息
+        stringBuilder.append(exception);
+        stringBuilder.append(ScorpioConfig.SYMBOL_R_N);
+        // 遍历异常堆栈数组,循环拼接异常信息
+        for (StackTraceElement traceElement : stackTraceElement) {
+            stringBuilder.append(ScorpioConfig.SYMBOL_TAB);
+            stringBuilder.append(traceElement.toString());
+            stringBuilder.append(ScorpioConfig.SYMBOL_R_N);
+        }
+        // 异常提示信息拼接
+        String message = exception.getMessage();
+        if (StrUtil.isNotEmpty(message) && message.length() > 20) {
+            // 提示信息太长,只取一部分
+            message = message.substring(0, 19);
+        }
+        // 写入Response组件Body信息
+        String responseMessage = StrUtil.format(ResponseConstant.RESPONSE_500_HTML,
+                message, exception.toString(), stringBuilder.toString());
+        response.getPrintWriter().println(responseMessage);
+        String header = ResponseConstant.RESPONSE_500_HEADER;
+        // 响应
+        this.reply(socket, response, header);
     }
 
     /**
@@ -180,3 +214,19 @@ public class Core {
         LogFactory.get().info("Scorpio进行应答: " + new String(response.getBody(), StandardCharsets.UTF_8));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

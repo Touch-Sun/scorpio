@@ -99,6 +99,11 @@ public class ScorpioConfig {
     public static final String PAGE_NAME_HTML_TIME_CONSUME = "timeConsume.html";
 
     /**
+     * 页面[exception.html]
+     */
+    public static final String PAGE_NAME_HTML_EXCEPTION = "exception.html";
+
+    /**
      * 信息[文件未找到]
      */
     public static String MSG_FILE_NOT_FOUND = "File Not Found";
@@ -139,9 +144,19 @@ public class ScorpioConfig {
     public static final String MSG_FIX_URI_ROOT_APP = "Access the ROOT app without corrections";
 
     /**
+     * 符号[\t]
+     */
+    public static final String SYMBOL_TAB = "\t";
+
+    /**
      * 符号[\t\t]
      */
     public static final String SYMBOL_TAB_TAB = "\t\t";
+
+    /**
+     * 符号[\r\n]
+     */
+    public static final String SYMBOL_R_N = "\r\n";
 
     /**
      * 符号[:]
