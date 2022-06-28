@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +104,33 @@ public class AppXMLParser {
             hostList.add(new Host(name, engine));
         }
         return hostList;
+    }
+
+    /**
+     * 获取某个应用上下文的默认欢迎文件的名称
+     * @param appContext 应用上下文
+     * @return 该应用上下文中的欢迎文件
+     */
+    public static String parseWelcomeFile(Context appContext) {
+        // 读取出配置文件[web.xml]全部内容
+        String webXmlInfo = FileUtil.readUtf8String(ScorpioConfig.WEB_XML_FILE);
+        // 解析成Document
+        Document document = Jsoup.parse(webXmlInfo);
+        // 获取welcome-file节点
+        Elements elements = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_WELCOME_FILE);
+        // 遍历每一个welcome-file
+        for (Element element : elements) {
+            // 获取节点的文本信息
+            String fileName = element.text();
+            // 根据Context的应用路径,找到文件
+            File welcomeFile = new File(appContext.getAppPath(), fileName);
+            if (welcomeFile.exists()) {
+                // 文件存在返回文件的名称
+                return welcomeFile.getName();
+            }
+        }
+        // 没有就返回默认[index.html]
+        return ScorpioConfig.PAGE_NAME_HTML_INDEX;
     }
 
 }
