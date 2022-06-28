@@ -99,6 +99,10 @@ public class Request {
             // 若访问地址,不是根,而是其他Web程序,则需要修正Uri
             String oldUri = uri;
             uri = StrUtil.removePrefix(uri, appContext.getPath());
+            if (StrUtil.isEmpty(uri)) {
+                // 访问应用,不访问具体文件时[/numbers],uri被修正为[''],[/numbers -> '']
+                uri = ScorpioConfig.URI_ROOT;
+            }
             LogFactory.get().debug(ScorpioConfig.MSG_FIX_URI_APP, oldUri, uri);
         } else {
             LogFactory.get().debug(ScorpioConfig.MSG_FIX_URI_ROOT_APP);
@@ -109,6 +113,14 @@ public class Request {
      * 初始化应用上下文
      */
     private void initContext() {
+        // 从Scorpio服务中拿出Engine引擎处理
+        Engine engine = this.service.getEngine();
+        // 先通过uri获取Context[http://127.0.0.1/numbers情况 -> /numbers]
+        appContext = engine.getDefaultHost().getContext(uri);
+        if (appContext != null) {
+            // 不为空,代表访问的是一个应用,但是没有指名具体的访问文件
+            return;
+        }
         // 在URI中获取Path[Context的Key] -> http://127.0.0.1/numbers/index.html -> [numbers]
         String path = StrUtil.subBetween(uri, ScorpioConfig.URI_ROOT, ScorpioConfig.URI_ROOT);
         if (null == path) {
@@ -118,8 +130,6 @@ public class Request {
             // path -> ["/" + "numbers"] -> [/numbers]
             path = ScorpioConfig.URI_ROOT + path;
         }
-        // 从Scorpio服务中拿出Engine引擎处理
-        Engine engine = this.service.getEngine();
         // 获取上下文实例
         appContext = engine.getDefaultHost().getContext(path);
         if (null == appContext) {

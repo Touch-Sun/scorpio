@@ -3,6 +3,7 @@ package com.touchsun.scorpio.config;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.system.SystemUtil;
 import com.touchsun.scorpio.type.LoadStrategy;
+import com.touchsun.scorpio.type.WelcomeStrategy;
 
 import java.io.File;
 
@@ -43,6 +44,11 @@ public class ScorpioConfig {
     public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_HOST = "Host";
 
     /**
+     * 默认配置文件元素节点名称[welcome-file]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_WELCOME_FILE = "welcome-file";
+
+    /**
      * 默认配置文件元素节点名称[Service]
      */
     public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_SERVICE = "Service";
@@ -79,6 +85,12 @@ public class ScorpioConfig {
     public static final LoadStrategy DEFAULT_LOAD_CONTEXT_STRATEGY = LoadStrategy.ALL;
 
     /**
+     * 默认程序欢迎信息策略[HTML]
+     * 详细信息参照 @WelcomeStrategy
+     */
+    public static final WelcomeStrategy DEFAULT_WELCOME_TYPE_STRATEGY = WelcomeStrategy.HTML;
+
+    /**
      * URI[根路径]
      */
     public static String URI_ROOT = "/";
@@ -94,6 +106,11 @@ public class ScorpioConfig {
     public static final String SERVER_XML_NAME = "server.xml";
 
     /**
+     * 文件名称[web.xml]
+     */
+    public static final String WEB_XML_NAME = "web.xml";
+
+    /**
      * 页面[timeConsume.html]
      */
     public static final String PAGE_NAME_HTML_TIME_CONSUME = "timeConsume.html";
@@ -102,6 +119,11 @@ public class ScorpioConfig {
      * 页面[exception.html]
      */
     public static final String PAGE_NAME_HTML_EXCEPTION = "exception.html";
+
+    /**
+     * 页面[index.html]
+     */
+    public static final String PAGE_NAME_HTML_INDEX = "index.html";
 
     /**
      * 信息[文件未找到]
@@ -182,6 +204,11 @@ public class ScorpioConfig {
      * 配置文件[server.xml]
      */
     public final static File SERVER_XML_FILE = new File(CONFIG_FOLDER, SERVER_XML_NAME);
+
+    /**
+     * 配置文件[web.xml]
+     */
+    public final static File WEB_XML_FILE = new File(CONFIG_FOLDER, WEB_XML_NAME);
 
     ///////////////////////////////////////////////////////////////////////////
     // Scorpio虚拟机信息

@@ -7,7 +7,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.config.ScorpioConfig;
 import com.touchsun.scorpio.constant.ResponseConstant;
+import com.touchsun.scorpio.plugin.AppXMLParser;
 import com.touchsun.scorpio.type.ResponseStatus;
+import com.touchsun.scorpio.type.WelcomeStrategy;
 import com.touchsun.scorpio.web.Request;
 import com.touchsun.scorpio.web.Response;
 import com.touchsun.scorpio.exception.ExceptionMessage;
@@ -50,7 +52,8 @@ public class Core {
      * @param socket 客户端连接
      * @throws IOException IO异常
      */
-    public void handleRequest(Socket socket, Request request, Response response) throws IOException, ScorpioNormalException {
+    public void handleRequest(Socket socket, Request request, Response response)
+            throws IOException, ScorpioNormalException {
         // 请求日志
         requestLog(request);
 
@@ -60,38 +63,64 @@ public class Core {
         Context appContext = request.getAppContext();
 
         if (ScorpioConfig.URI_ROOT.equals(uri)) {
-            // "/"根路径返回欢迎内容
-            response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
-            this.reply(socket, response, ResponseStatus._200);
-        } else {
-            // 去除"/"得到文件名称 [/hello.html -> hello.html]
-            String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
-            // 根据文件名以及应用上下文去找文件
-            File file = FileUtil.file(appContext.getAppPath(), fileName);
-            if (file.exists()) {
-                // 模拟线程阻塞页面[阻塞2s]
-                if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
-                    ThreadUtil.sleep(2000);
-                }
-                // 模拟异常页面[主动抛出异常]
-                if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_EXCEPTION, fileName)) {
-                    throw new ScorpioNormalException(ExceptionMessage.CREATED_EXCEPTION);
-                }
-                // 读取文件内容
-                String fileContent = FileUtil.readUtf8String(file);
-                // 写入响应对象
-                response.getPrintWriter().println(fileContent);
-                this.reply(socket, response, ResponseStatus._200);
-            } else {
-                // 写入[文件未找到信息]
-                String responseMessage = StrUtil.format(ResponseConstant.RESPONSE_404_HTML, uri, uri);
-                response.getPrintWriter().println(responseMessage);
-                this.reply(socket, response, ResponseStatus._404);
+            switch (ScorpioConfig.DEFAULT_WELCOME_TYPE_STRATEGY) {
+                case TEXT:
+                    // "/"根路径返回欢迎内容[文本信息]
+                    response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
+                    this.reply(socket, response, ResponseStatus._200);
+                break;
+                case HTML:
+                    // "/"根路径返回欢迎内容[HTML文件信息]
+                    uri = AppXMLParser.parseWelcomeFile(request.getAppContext());
+                    fileProcess(socket, response, uri, appContext);
+                    break;
+                default:
+                    throw new ScorpioNormalException(ExceptionMessage.WELCOME_STRATEGY_EXCEPTION);
             }
+        } else {
+            // 解析文件内容做出响应
+            fileProcess(socket, response, uri, appContext);
         }
 
         // 响应日志
         this.responseLog(response);
+    }
+
+    /**
+     * 解析文件内容,做出响应
+     * @param socket 客户端连接
+     * @param response 响应组件
+     * @param uri URI
+     * @param appContext 应用上下文
+     * @throws ScorpioNormalException 常规异常
+     * @throws IOException IO异常
+     */
+    public void fileProcess(Socket socket, Response response, String uri, Context appContext)
+            throws ScorpioNormalException, IOException {
+        // 去除"/"得到文件名称 [/hello.html -> hello.html]
+        String fileName = StrUtil.removePrefix(uri, ScorpioConfig.URI_ROOT);
+        // 根据文件名以及应用上下文去找文件
+        File file = FileUtil.file(appContext.getAppPath(), fileName);
+        if (file.exists()) {
+            // 模拟线程阻塞页面[阻塞2s]
+            if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_TIME_CONSUME, fileName)) {
+                ThreadUtil.sleep(2000);
+            }
+            // 模拟异常页面[主动抛出异常]
+            if (StrUtil.equals(ScorpioConfig.PAGE_NAME_HTML_EXCEPTION, fileName)) {
+                throw new ScorpioNormalException(ExceptionMessage.CREATED_EXCEPTION);
+            }
+            // 读取文件内容
+            String fileContent = FileUtil.readUtf8String(file);
+            // 写入响应对象
+            response.getPrintWriter().println(fileContent);
+            this.reply(socket, response, ResponseStatus._200);
+        } else {
+            // 写入[文件未找到信息]
+            String responseMessage = StrUtil.format(ResponseConstant.RESPONSE_404_HTML, uri, uri);
+            response.getPrintWriter().println(responseMessage);
+            this.reply(socket, response, ResponseStatus._404);
+        }
     }
 
     /**
@@ -101,7 +130,8 @@ public class Core {
      * @param response 响应对象
      * @throws IOException IO异常
      */
-    public void reply(Socket socket, Response response, ResponseStatus responseStatus) throws IOException, ScorpioNormalException {
+    public void reply(Socket socket, Response response, ResponseStatus responseStatus)
+            throws IOException, ScorpioNormalException {
         // 根据响应类型构建响应头
         String header;
         switch (responseStatus) {
