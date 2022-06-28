@@ -118,6 +118,17 @@ public class TestScorpio {
     }
 
     /**
+     * 测试访问应用,但不指定文件时,时Scorpio的响应情况
+     */
+    @Test
+    public void testDefaultWelcomeScorpio() {
+        // 访问一个不存在的文件,查看Http的响应信息
+        String html = getHttpContent("/student");
+        boolean match  = StrUtil.containsAny(html, "This is a configuration type application of student!");
+        Assert.assertTrue(match);
+    }
+
+    /**
      * 调用虚拟浏览器请求Scorpio[返回Body信息]
      * @param uri URI
      * @return HTML
