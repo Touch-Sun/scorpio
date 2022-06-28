@@ -1,6 +1,8 @@
-package com.touchsun.scorpio.core;
+package com.touchsun.scorpio;
 
 import cn.hutool.log.LogFactory;
+import com.touchsun.scorpio.core.Core;
+import com.touchsun.scorpio.core.Server;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 /**
@@ -26,5 +28,9 @@ public class ScorpioApplication {
             e.printStackTrace();
             LogFactory.get().error(e);
         }
+    }
+
+    public static void main(String[] args) {
+        run(ScorpioApplication.class, args);
     }
 }
