@@ -12,6 +12,11 @@ public class ExceptionMessage {
     public static final String LOAD_STRATEGY_EXCEPTION = "Does not have a default program loading strategy!";
 
     /**
+     * 没有指定Web应用的欢迎策略 [内核异常]
+     */
+    public static final String WELCOME_STRATEGY_EXCEPTION = "Does not have a default program welcome strategy!";
+
+    /**
      * 响应状态不存在 [内核异常]
      */
     public static final String RESPONSE_STATUS_NOT_EXIST_EXCEPTION = "Response status does not exist!";
