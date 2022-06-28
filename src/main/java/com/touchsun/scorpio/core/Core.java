@@ -9,7 +9,6 @@ import com.touchsun.scorpio.config.ScorpioConfig;
 import com.touchsun.scorpio.constant.ResponseConstant;
 import com.touchsun.scorpio.plugin.AppXMLParser;
 import com.touchsun.scorpio.type.ResponseStatus;
-import com.touchsun.scorpio.type.WelcomeStrategy;
 import com.touchsun.scorpio.web.Request;
 import com.touchsun.scorpio.web.Response;
 import com.touchsun.scorpio.exception.ExceptionMessage;
@@ -66,9 +65,8 @@ public class Core {
             switch (ScorpioConfig.DEFAULT_WELCOME_TYPE_STRATEGY) {
                 case TEXT:
                     // "/"根路径返回欢迎内容[文本信息]
-                    response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
-                    this.reply(socket, response, ResponseStatus._200);
-                break;
+                    textProcess(socket, response);
+                    break;
                 case HTML:
                     // "/"根路径返回欢迎内容[HTML文件信息]
                     uri = AppXMLParser.parseWelcomeFile(request.getAppContext());
@@ -87,9 +85,21 @@ public class Core {
     }
 
     /**
+     * 读取配置文字信息,做出响应
+     * @param socket 客户端连接
+     * @param response 响应对象
+     * @throws ScorpioNormalException 常规异常
+     * @throws IOException IO异常
+     */
+    private void textProcess(Socket socket, Response response) throws IOException, ScorpioNormalException {
+        response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
+        this.reply(socket, response, ResponseStatus._200);
+    }
+
+    /**
      * 解析文件内容,做出响应
      * @param socket 客户端连接
-     * @param response 响应组件
+     * @param response 响应对象
      * @param uri URI
      * @param appContext 应用上下文
      * @throws ScorpioNormalException 常规异常
