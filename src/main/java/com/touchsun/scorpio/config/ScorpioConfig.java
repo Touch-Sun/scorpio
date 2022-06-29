@@ -49,6 +49,21 @@ public class ScorpioConfig {
     public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_WELCOME_FILE = "welcome-file";
 
     /**
+     * 默认配置文件元素节点名称[mime-mapping]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_MIME_MAPPING = "mime-mapping";
+
+    /**
+     * 默认配置文件元素节点名称[extension]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_EXTENSION = "extension";
+
+    /**
+     * 默认配置文件元素节点名称[mimeType]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_MIMETYPE = "mime-type";
+
+    /**
      * 默认配置文件元素节点名称[Service]
      */
     public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_SERVICE = "Service";
@@ -139,6 +154,11 @@ public class ScorpioConfig {
      * 信息[Web应用部署成功]
      */
     public static final String MSG_DEPLOY_FINISH = "Scorpio's web application has been deployed at path [{}], and the access path is {}{}:{}{}, which takes {} milliseconds in total";
+
+    /**
+     * 信息[成功加载mimeType映射]
+     */
+    public static final String MSG_LOAD_MIME_TYPE_MAPPING = "Successfully loaded mime Type mappings: {}";
 
     /**
      * 信息[加载Web应用个数,从webApps目录下]

@@ -1,6 +1,9 @@
 package com.touchsun.scorpio.plugin;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.LogFactory;
+import com.touchsun.scorpio.constant.ResponseConstant;
 import com.touchsun.scorpio.core.Context;
 import com.touchsun.scorpio.core.Engine;
 import com.touchsun.scorpio.core.Host;
@@ -13,13 +16,20 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 应用解析器
  * @author Lee
  */
 public class AppXMLParser {
+
+    /**
+     * mime-type 映射类型
+     */
+    private static Map<String, String> mimeTypeMapping = new HashMap<>();
 
     /**
      * 解析配置文件,提取Context
@@ -131,6 +141,48 @@ public class AppXMLParser {
         }
         // 没有就返回默认[index.html]
         return ScorpioConfig.PAGE_NAME_HTML_INDEX;
+    }
+
+    /**
+     * 根据extension获取mimeType
+     * 该方法被设计为线程安全的,防止在并发情况下,造成判断失误,多次初始化mimeType映射
+     * @param extension extension
+     * @return mimeType
+     */
+    public static synchronized String getMimeType(String extension) {
+        if (mimeTypeMapping.isEmpty()) {
+            // 若mimeType映射没有初始化
+            initMimeTypeMapping();
+            LogFactory.get().debug(ScorpioConfig.MSG_LOAD_MIME_TYPE_MAPPING, mimeTypeMapping.size());
+        }
+        // 获取mimeType
+        String mimeType = mimeTypeMapping.get(extension);
+        if (StrUtil.isEmpty(mimeType)) {
+            // 没有获取到对应的mimeType,使用默认的[text/html]
+            mimeType = ResponseConstant.TEXT_HTML;
+        }
+        return mimeType;
+    }
+
+    /**
+     * 初始化mimeType映射
+     */
+    private static void initMimeTypeMapping() {
+        // 读取出配置文件[web.xml]全部内容
+        String webXmlInfo = FileUtil.readUtf8String(ScorpioConfig.WEB_XML_FILE);
+        // 解析成Document
+        Document document = Jsoup.parse(webXmlInfo);
+        // 获取welcome-file节点
+        Elements elements = document.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_MIME_MAPPING);
+        // 遍历每一个welcome-file
+        for (Element element : elements) {
+            // 获取extension节点
+            String extension = element.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_EXTENSION).first().text();
+            // 获取mime-type节点
+            String mimeType = element.select(ScorpioConfig.DEFAULT_SERVER_XML_ELEMENT_NAME_MIMETYPE).first().text();
+            // 压入mimeType映射
+            mimeTypeMapping.put(extension, mimeType);
+        }
     }
 
 }
