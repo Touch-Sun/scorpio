@@ -122,9 +122,20 @@ public class TestScorpio {
      */
     @Test
     public void testDefaultWelcomeScorpio() {
-        // 访问一个不存在的文件,查看Http的响应信息
+        // 访问一个应用但不指定文件,查看Http的响应信息
         String html = getHttpContent("/student");
         boolean match  = StrUtil.containsAny(html, "This is a configuration type application of student!");
+        Assert.assertTrue(match);
+    }
+
+    /**
+     * 测试访问JPG文件,时Scorpio的响应情况
+     */
+    @Test
+    public void testJPGScorpio() {
+        // 访问一个JPG,查看Http的响应信息
+        String html = getHttpContent("/girl.jpg");
+        boolean match  = StrUtil.containsAny(html, "jpeg");
         Assert.assertTrue(match);
     }
 
