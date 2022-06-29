@@ -121,13 +121,13 @@ public class Core {
                 throw new ScorpioNormalException(ExceptionMessage.CREATED_EXCEPTION);
             }
             // 读取文件内容
-            String fileContent = FileUtil.readUtf8String(file);
+            byte[] fileContent = FileUtil.readBytes(file);
             // 设置响应对象的contentType
             String fileExtName = FileUtil.extName(file);
             String mimeType = AppXMLParser.getMimeType(fileExtName);
             response.setContentType(mimeType);
             // 写入响应对象
-            response.getPrintWriter().println(fileContent);
+            response.setBody(fileContent);
             this.reply(socket, response, ResponseStatus._200);
         } else {
             // 写入[文件未找到信息]

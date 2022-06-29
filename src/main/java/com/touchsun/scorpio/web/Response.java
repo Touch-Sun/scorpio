@@ -34,6 +34,12 @@ public class Response {
     @Getter
     private String contentType;
 
+    /**
+     * 存放二进制文件
+     */
+    @Setter
+    private byte[] body;
+
     public Response() {
         this.stringWriter = new StringWriter();
         this.printWriter = new PrintWriter(stringWriter);
@@ -46,6 +52,10 @@ public class Response {
      * @return byte[]
      */
     public byte[] getBody() {
+        if (null != this.body) {
+            // body不为空时,证明是二进制文件的请求,直接返回body
+            return body;
+        }
         String content = stringWriter.toString();
         return content.getBytes(StandardCharsets.UTF_8);
     }

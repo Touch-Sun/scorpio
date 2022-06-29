@@ -72,7 +72,7 @@ public class Request {
      */
     private void parseHttpRequest() throws IOException {
         InputStream inputStream = this.socket.getInputStream();
-        byte[] result = VirtualBrowser.readBytes(inputStream);
+        byte[] result = VirtualBrowser.readBytes(inputStream, false);
         this.requestContent = new String(result, StandardCharsets.UTF_8);
     }
 

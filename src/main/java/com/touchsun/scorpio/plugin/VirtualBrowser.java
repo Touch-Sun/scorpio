@@ -204,7 +204,7 @@ public class VirtualBrowser {
             printWriter.println(httpRequestContent);
             InputStream inputStream = client.getInputStream();
             // 读取Http请求内容的所有字节
-            result = readBytes(inputStream);
+            result = readBytes(inputStream, true);
             client.close();
 
         } catch (Exception exception) {
@@ -218,10 +218,11 @@ public class VirtualBrowser {
     /**
      * 读取字节内容从请求中
      * @param inputStream 客户端创建的输入流
+     * @param all 是否完全读取文件
      * @return 字节内容
      * @throws IOException IO异常
      */
-    public static byte[] readBytes(InputStream inputStream) throws IOException {
+    public static byte[] readBytes(InputStream inputStream, boolean all) throws IOException {
         int bufferSize = 1024;
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -232,7 +233,8 @@ public class VirtualBrowser {
                 break;
             }
             byteArrayOutputStream.write(buffer, 0 ,length);
-            if (length != bufferSize) {
+            if (length != bufferSize && !all) {
+                // 剩余内容字节大小 < 1024 不读取终端,且通过all控制
                 break;
             }
         }
