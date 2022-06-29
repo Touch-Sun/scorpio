@@ -193,7 +193,7 @@ public class ScorpioConfig {
     /**
      * 信息[Scorpio所有连接器初始化耗时]
      */
-    public static final String MSG_CONNECTOR_INITIALIZE_TIME = "All Scorpio connectors take total time to initialize: {} seconds.";
+    public static final String MSG_CONNECTOR_INITIALIZE_TIME = "All Scorpio connectors take total time to initialize: {} millisecond.";
 
     /**
      * 信息[Scorpio启动成功]

@@ -75,7 +75,7 @@ public class Service {
         TimeInterval timeInterval = DateUtil.timer();
         // 初始化每一个连接器
         connectorList.forEach(Connector::initialize);
-        LogFactory.get().info(ScorpioConfig.MSG_CONNECTOR_INITIALIZE_TIME, timeInterval.interval());
+        LogFactory.get().debug(ScorpioConfig.MSG_CONNECTOR_INITIALIZE_TIME, timeInterval.interval());
         // 将每一个连接器提交到线程池
         connectorList.forEach(Connector::start);
     }
