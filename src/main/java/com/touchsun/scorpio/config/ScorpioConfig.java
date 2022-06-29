@@ -29,9 +29,14 @@ public class ScorpioConfig {
     public static String DEFAULT_ADDRESS = "127.0.0.1";
 
     /**
-     * 默认线程名称[常规配置]
+     * Web请求线程名称[常规配置]
      */
-    public static final String DEFAULT_THREAD_NAME = "scorpio-thread-";
+    public static final String WEB_THREAD_NAME = "scorpio-web-thread-";
+
+    /**
+     * Scorpio启动实例请求线程名称[常规配置]
+     */
+    public static final String SCORPIO_THREAD_NAME = "scorpio-started-thread-";
 
     /**
      * 默认配置文件元素节点名称[Context]
@@ -42,6 +47,11 @@ public class ScorpioConfig {
      * 默认配置文件元素节点名称[Host]
      */
     public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_HOST = "Host";
+
+    /**
+     * 默认配置文件元素节点名称[Connector]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_CONNECTOR = "Connector";
 
     /**
      * 默认配置文件元素节点名称[welcome-file]
@@ -87,6 +97,11 @@ public class ScorpioConfig {
      * 默认配置文件元素节点属性名称[name]
      */
     public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_NAME_NAME = "name";
+
+    /**
+     * 默认配置文件元素节点属性名称[port]
+     */
+    public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_PORT_NAME = "port";
 
     /**
      * 默认配置文件元素节点属性名称[defaultHost]
@@ -169,6 +184,16 @@ public class ScorpioConfig {
      * 信息[加载Web应用个数,从server.xml配置中]
      */
     public static final String MSG_LOAD_APP_CONTEXT_COUNT_SERVER_XML = "load application {} into context from \"server.xml\" config";
+
+    /**
+     * 信息[Scorpio初始化成功]
+     */
+    public static final String MSG_SCORPIO_INITIALIZE = "Scorpio initialize successfully, listening on port [http-bio-{}]";
+
+    /**
+     * 信息[Scorpio所有连接器初始化耗时]
+     */
+    public static final String MSG_CONNECTOR_INITIALIZE_TIME = "All Scorpio connectors take total time to initialize: {} seconds.";
 
     /**
      * 信息[Scorpio启动成功]

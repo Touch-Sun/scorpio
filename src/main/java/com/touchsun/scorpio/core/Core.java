@@ -39,11 +39,8 @@ public class Core {
      * @return serverSocket
      * @throws IOException IO异常
      */
-    public ServerSocket buildConnect() throws IOException {
-        Integer port = ScorpioConfig.DEFAULT_PORT;
-        ServerSocket serverSocket = new ServerSocket(port);
-        LogFactory.get().info(ScorpioConfig.MSG_SCORPIO_STARTED, port);
-        return serverSocket;
+    public ServerSocket buildConnect(int port) throws IOException {
+        return new ServerSocket(port);
     }
 
     /**
