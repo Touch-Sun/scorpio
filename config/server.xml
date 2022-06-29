@@ -3,6 +3,11 @@
 <Server>
     <!--Scorpio服务-->
     <Service name="Catalina">
+        <!--Scorpio连接器-->
+        <Connector port="1204"/>
+        <Connector port="1205"/>
+        <Connector port="1206"/>
+        <Connector port="1207"/>
         <!--Scorpio引擎-->
         <Engine defaultHost="localhost">
             <!--虚拟主机-->
