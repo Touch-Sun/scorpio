@@ -3,6 +3,7 @@ package com.touchsun.scorpio.web;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.constant.ResponseConstant;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,6 +30,8 @@ public class Response {
     /**
      * 响应数据的类型
      */
+    @Setter
+    @Getter
     private String contentType;
 
     public Response() {

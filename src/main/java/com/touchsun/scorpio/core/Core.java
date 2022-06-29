@@ -122,6 +122,10 @@ public class Core {
             }
             // 读取文件内容
             String fileContent = FileUtil.readUtf8String(file);
+            // 设置响应对象的contentType
+            String fileExtName = FileUtil.extName(file);
+            String mimeType = AppXMLParser.getMimeType(fileExtName);
+            response.setContentType(mimeType);
             // 写入响应对象
             response.getPrintWriter().println(fileContent);
             this.reply(socket, response, ResponseStatus._200);
@@ -146,7 +150,7 @@ public class Core {
         String header;
         switch (responseStatus) {
             case _200:
-                header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, ResponseConstant.TEXT_HTML);
+                header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, response.getContentType());
                 this.reply(socket, response, header);
             break;
             case _404:
