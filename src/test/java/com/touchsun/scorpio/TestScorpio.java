@@ -140,6 +140,17 @@ public class TestScorpio {
     }
 
     /**
+     * 测试访问JPG文件,时Scorpio的响应情况
+     */
+    @Test
+    public void testJPGBytesScorpio() {
+        // 访问一个JPG,查看Http的响应信息
+        byte[] body = getContentBytes("/girl.jpg");
+        boolean more = body.length > 300000;
+        Assert.assertTrue(more);
+    }
+
+    /**
      * 调用虚拟浏览器请求Scorpio[返回Body信息]
      * @param uri URI
      * @return HTML
@@ -148,6 +159,17 @@ public class TestScorpio {
         String url = StrUtil.format("http://{}:{}{}",
                 ScorpioConfig.DEFAULT_ADDRESS, ScorpioConfig.DEFAULT_PORT, uri);
         return VirtualBrowser.getContent(url);
+    }
+
+    /**
+     * 调用虚拟浏览器请求Scorpio[返回Body字节信息]
+     * @param uri URI
+     * @return byte[]
+     */
+    public byte[] getContentBytes(String uri) {
+        String url = StrUtil.format("http://{}:{}{}",
+                ScorpioConfig.DEFAULT_ADDRESS, ScorpioConfig.DEFAULT_PORT, uri);
+        return VirtualBrowser.getContentBytes(url);
     }
 
     /**
