@@ -2,6 +2,7 @@ package com.touchsun.scorpio;
 
 /**
  * Scorpio引导类
+ *
  * @author Lee
  */
 public class BootStrap {

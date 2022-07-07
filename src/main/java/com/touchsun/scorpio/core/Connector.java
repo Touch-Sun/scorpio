@@ -15,6 +15,7 @@ import java.net.Socket;
 
 /**
  * Scorpio连接器
+ *
  * @author Lee
  */
 public class Connector implements Runnable {

@@ -1,15 +1,16 @@
 package com.touchsun.scorpio.core;
 
 import cn.hutool.core.util.StrUtil;
-import com.touchsun.scorpio.plugin.AppXMLParser;
 import com.touchsun.scorpio.exception.ExceptionMessage;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
+import com.touchsun.scorpio.plugin.AppXMLParser;
 import lombok.Getter;
 
 import java.util.List;
 
 /**
  * Scorpio引擎
+ *
  * @author Lee
  */
 public class Engine {
@@ -47,6 +48,7 @@ public class Engine {
 
     /**
      * 检测解析正确性
+     *
      * @throws ScorpioNormalException [内核异常]
      */
     private void checkParse() throws ScorpioNormalException {
@@ -58,6 +60,7 @@ public class Engine {
 
     /**
      * 根据Scorpio配置信息,获取Host
+     *
      * @return Host
      */
     public Host getDefaultHost() {

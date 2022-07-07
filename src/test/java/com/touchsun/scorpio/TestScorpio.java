@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Scorpio容器健康监测[测试]
+ *
  * @author Lee
  */
 public class TestScorpio {
@@ -51,6 +52,7 @@ public class TestScorpio {
 
     /**
      * 测试并发访问场景下的处理速度
+     *
      * @throws InterruptedException 线程中断异常
      */
     @Test
@@ -102,7 +104,7 @@ public class TestScorpio {
     public void testNotExistScorpio() {
         // 访问一个不存在的文件,查看Http的响应信息
         String html = getHttpContent("/notExist.html");
-        boolean match  = StrUtil.containsAny(html, "HTTP/1.1 404 Not Found");
+        boolean match = StrUtil.containsAny(html, "HTTP/1.1 404 Not Found");
         Assert.assertTrue(match);
     }
 
@@ -113,7 +115,7 @@ public class TestScorpio {
     public void testExceptionScorpio() {
         // 访问一个不存在的文件,查看Http的响应信息
         String html = getHttpContent("/exception.html");
-        boolean match  = StrUtil.containsAny(html, "HTTP/1.1 500 Internal Server Error");
+        boolean match = StrUtil.containsAny(html, "HTTP/1.1 500 Internal Server Error");
         Assert.assertTrue(match);
     }
 
@@ -124,7 +126,7 @@ public class TestScorpio {
     public void testDefaultWelcomeScorpio() {
         // 访问一个应用但不指定文件,查看Http的响应信息
         String html = getHttpContent("/student");
-        boolean match  = StrUtil.containsAny(html, "This is a configuration type application of student!");
+        boolean match = StrUtil.containsAny(html, "This is a configuration type application of student!");
         Assert.assertTrue(match);
     }
 
@@ -135,7 +137,7 @@ public class TestScorpio {
     public void testJPGScorpio() {
         // 访问一个JPG,查看Http的响应信息
         String html = getHttpContent("/girl.jpg");
-        boolean match  = StrUtil.containsAny(html, "jpeg");
+        boolean match = StrUtil.containsAny(html, "jpeg");
         Assert.assertTrue(match);
     }
 
@@ -151,7 +153,17 @@ public class TestScorpio {
     }
 
     /**
+     * 测试Scorpio对Servlet的解析支持
+     */
+    @Test
+    public void testServletScorpio() {
+        String html = getContent("/servlet");
+        Assert.assertEquals(html, "你好Scorpio,我是你的第一个Servlet");
+    }
+
+    /**
      * 调用虚拟浏览器请求Scorpio[返回Body信息]
+     *
      * @param uri URI
      * @return HTML
      */
@@ -163,6 +175,7 @@ public class TestScorpio {
 
     /**
      * 调用虚拟浏览器请求Scorpio[返回Body字节信息]
+     *
      * @param uri URI
      * @return byte[]
      */
@@ -174,6 +187,7 @@ public class TestScorpio {
 
     /**
      * 调用虚拟浏览器请求Scorpio[返回Http全部信息]
+     *
      * @param uri URI
      * @return HTML
      */
@@ -186,6 +200,7 @@ public class TestScorpio {
     /**
      * 判定Scorpio是否启动
      * 向Scorpio[/]URI发生请求，返回内容不为空，证明存活
+     *
      * @return 是否启动布尔值
      */
     public static boolean scorpioIsEnable() {

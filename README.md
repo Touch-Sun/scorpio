@@ -6,7 +6,7 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Touch-Sun/scorpio)
 ![GitHub issues](https://img.shields.io/github/issues/Touch-Sun/scorpio)
-![GitHub Repo stars](https://img.shields.io/github/stars/Touch-Sun/scorpio) 
+![GitHub Repo stars](https://img.shields.io/github/stars/Touch-Sun/scorpio)
 ![GitHub](https://img.shields.io/github/license/Touch-Sun/scorpio)
 <!-- ![GitHub watchers](https://img.shields.io/github/watchers/Touch-Sun/scorpio) -->
 
@@ -19,7 +19,7 @@
     <img style="box-shadow: 1px 1px 10px #6b1839; border-radius: 15px" src="https://s1.328888.xyz/2022/06/21/sArGM.png" alt="Logo" width="auto" height="auto">
   </a>
 
-  <h3 align="center">小巧、功能丰富、食用方便</h3>
+<h3 align="center">小巧、功能丰富、食用方便</h3>
   <p align="center">
     本项目支持类似Tomcat的所有核心功能，且都做了Micro设计！
     <br />
@@ -36,8 +36,8 @@
 </p>
 
 
- Scorpio面向Java开发者，为他们巩固Web编程的基础,当然设计细想却不局限
- 
+Scorpio面向Java开发者，为他们巩固Web编程的基础,当然设计细想却不局限
+
 ## 目录
 
 - [上手指南](#上手指南)
@@ -57,8 +57,6 @@
 
 直接Git clone; 干！
 
-
-
 ###### 开发前的配置要求
 
 1. 准备好IDEA
@@ -74,6 +72,7 @@ git clone https://github.com/Touch-Sun/scorpio.git
 ```
 
 ### 文件目录说明
+
 eg:
 
 ```
@@ -100,11 +99,7 @@ scorpio-----------------------------------------------[项目目录]
 
 ```
 
-
-
-
-
-### 开发的架构 
+### 开发的架构
 
 阅读Tomcat源码后,按照Tomcat的设计理念对Scorpio架构
 
@@ -124,14 +119,11 @@ scorpio-----------------------------------------------[项目目录]
 
 贡献使开源社区成为一个学习、激励和创造的绝佳场所。你所作的任何贡献都是**非常感谢**的。
 
-
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-
 
 ### 版本控制
 
@@ -141,9 +133,9 @@ scorpio-----------------------------------------------[项目目录]
 
 TouchSun
 
-思否：哈迪斯   
+思否：哈迪斯
 
- *您也可以在贡献者名单中参看所有参与该项目的开发者，当然目前还没有贡献者😂*
+*您也可以在贡献者名单中参看所有参与该项目的开发者，当然目前还没有贡献者😂*
 
 ### 版权说明
 

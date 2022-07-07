@@ -2,6 +2,7 @@ package com.touchsun.scorpio.config;
 
 /**
  * 虚拟浏览器配置
+ *
  * @author Lee
  */
 public class VirtualBrowserConfig {

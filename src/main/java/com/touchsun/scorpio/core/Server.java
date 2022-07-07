@@ -4,6 +4,7 @@ import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 /**
  * Scorpio服务器
+ *
  * @author Lee
  */
 public class Server {

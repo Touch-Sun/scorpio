@@ -9,6 +9,7 @@ import java.io.File;
 
 /**
  * 启动配置项
+ *
  * @author Lee
  */
 public class ScorpioConfig {
@@ -124,6 +125,11 @@ public class ScorpioConfig {
      * URI[根路径]
      */
     public static String URI_ROOT = "/";
+
+    /**
+     * URI[/servlet]
+     */
+    public static String URI_SERVLET = "/servlet";
 
     /**
      * 文件夹名称[ROOT文件夹]
@@ -243,7 +249,7 @@ public class ScorpioConfig {
     /**
      * 配置文件存放目录[config]
      */
-    public final static File  CONFIG_FOLDER = new File(SystemUtil.get("user.dir"), "config");
+    public final static File CONFIG_FOLDER = new File(SystemUtil.get("user.dir"), "config");
 
     /**
      * 配置文件[server.xml]

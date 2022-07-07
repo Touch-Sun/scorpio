@@ -2,6 +2,7 @@ package com.touchsun.scorpio.constant;
 
 /**
  * 响应信息常量
+ *
  * @author Lee
  */
 public class ResponseConstant {

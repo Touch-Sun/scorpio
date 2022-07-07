@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 线程执行器
+ *
  * @author Lee
  */
 public class ThreadActuator {
@@ -62,6 +63,7 @@ public class ThreadActuator {
 
     /**
      * 提交Web请求任务到线程池
+     *
      * @param task Runnable任务
      */
     public static void runWebTask(Runnable task) {
@@ -70,6 +72,7 @@ public class ThreadActuator {
 
     /**
      * Scorpio生成启动提交实例线程池
+     *
      * @param task Runnable任务
      */
     public static void executeScorpioInstance(Runnable task) {

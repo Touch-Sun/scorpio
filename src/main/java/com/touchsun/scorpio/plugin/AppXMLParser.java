@@ -4,9 +4,9 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
+import com.touchsun.scorpio.config.ScorpioConfig;
 import com.touchsun.scorpio.constant.ResponseConstant;
 import com.touchsun.scorpio.core.*;
-import com.touchsun.scorpio.config.ScorpioConfig;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * 应用解析器
+ *
  * @author Lee
  */
 public class AppXMLParser {
@@ -32,6 +33,7 @@ public class AppXMLParser {
 
     /**
      * 解析配置文件,提取Context
+     *
      * @return Context列表
      */
     public static List<Context> parseContexts() {
@@ -53,6 +55,7 @@ public class AppXMLParser {
 
     /**
      * 解析配置文件,提取Host属性
+     *
      * @return Host的属性name的值 [localhost]
      */
     public static String parseHostName() {
@@ -68,6 +71,7 @@ public class AppXMLParser {
 
     /**
      * 解析配置文件,提取Service属性
+     *
      * @return Service的属性name的值 [Catalina]
      */
     public static String parseServiceName() {
@@ -83,6 +87,7 @@ public class AppXMLParser {
 
     /**
      * 解析配置文件,提取Engine属性
+     *
      * @return Engine的属性defaultHost的值 [localhost]
      */
     public static String parseEngineDefaultHost() {
@@ -138,6 +143,7 @@ public class AppXMLParser {
 
     /**
      * 获取某个应用上下文的默认欢迎文件的名称
+     *
      * @param appContext 应用上下文
      * @return 该应用上下文中的欢迎文件
      */
@@ -166,6 +172,7 @@ public class AppXMLParser {
     /**
      * 根据extension获取mimeType
      * 该方法被设计为线程安全的,防止在并发情况下,造成判断失误,多次初始化mimeType映射
+     *
      * @param extension extension
      * @return mimeType
      */

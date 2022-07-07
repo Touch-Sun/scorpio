@@ -2,6 +2,7 @@ package com.touchsun.scorpio.type;
 
 /**
  * Scorpio欢迎策略
+ *
  * @author Lee
  */
 

@@ -2,6 +2,7 @@ package com.touchsun.scorpio.type;
 
 /**
  * 程序加载策略
+ *
  * @author Lee
  */
 public enum LoadStrategy {

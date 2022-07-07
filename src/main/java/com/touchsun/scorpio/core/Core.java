@@ -7,12 +7,13 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.config.ScorpioConfig;
 import com.touchsun.scorpio.constant.ResponseConstant;
+import com.touchsun.scorpio.exception.ExceptionMessage;
+import com.touchsun.scorpio.exception.ScorpioNormalException;
 import com.touchsun.scorpio.plugin.AppXMLParser;
+import com.touchsun.scorpio.servlet.HelloServlet;
 import com.touchsun.scorpio.type.ResponseStatus;
 import com.touchsun.scorpio.web.Request;
 import com.touchsun.scorpio.web.Response;
-import com.touchsun.scorpio.exception.ExceptionMessage;
-import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.util.Set;
 
 /**
  * Scorpio内核
+ *
  * @author Lee
  */
 public class Core {
@@ -36,6 +38,7 @@ public class Core {
 
     /**
      * 构建服务器通讯
+     *
      * @return serverSocket
      * @throws IOException IO异常
      */
@@ -45,6 +48,7 @@ public class Core {
 
     /**
      * 处理请求
+     *
      * @param socket 客户端连接
      * @throws IOException IO异常
      */
@@ -58,23 +62,29 @@ public class Core {
         // 获取应用上下文,定位不同的Web应用
         Context appContext = request.getAppContext();
 
-        if (ScorpioConfig.URI_ROOT.equals(uri)) {
-            switch (ScorpioConfig.DEFAULT_WELCOME_TYPE_STRATEGY) {
-                case TEXT:
-                    // "/"根路径返回欢迎内容[文本信息]
-                    textProcess(socket, response);
-                    break;
-                case HTML:
-                    // "/"根路径返回欢迎内容[HTML文件信息]
-                    uri = AppXMLParser.parseWelcomeFile(request.getAppContext());
-                    fileProcess(socket, response, uri, appContext);
-                    break;
-                default:
-                    throw new ScorpioNormalException(ExceptionMessage.WELCOME_STRATEGY_EXCEPTION);
-            }
+        // 模拟Servlet响应
+        if (StrUtil.equals(ScorpioConfig.URI_SERVLET, uri)) {
+            HelloServlet helloServlet = HelloServlet.instance();
+            helloServlet.doGet(request, response);
         } else {
-            // 解析文件内容做出响应
-            fileProcess(socket, response, uri, appContext);
+            if (ScorpioConfig.URI_ROOT.equals(uri)) {
+                switch (ScorpioConfig.DEFAULT_WELCOME_TYPE_STRATEGY) {
+                    case TEXT:
+                        // "/"根路径返回欢迎内容[文本信息]
+                        textProcess(socket, response);
+                        break;
+                    case HTML:
+                        // "/"根路径返回欢迎内容[HTML文件信息]
+                        uri = AppXMLParser.parseWelcomeFile(request.getAppContext());
+                        fileProcess(socket, response, uri, appContext);
+                        break;
+                    default:
+                        throw new ScorpioNormalException(ExceptionMessage.WELCOME_STRATEGY_EXCEPTION);
+                }
+            } else {
+                // 解析文件内容做出响应
+                fileProcess(socket, response, uri, appContext);
+            }
         }
 
         // 响应日志
@@ -83,10 +93,11 @@ public class Core {
 
     /**
      * 读取配置文字信息,做出响应
-     * @param socket 客户端连接
+     *
+     * @param socket   客户端连接
      * @param response 响应对象
      * @throws ScorpioNormalException 常规异常
-     * @throws IOException IO异常
+     * @throws IOException            IO异常
      */
     private void textProcess(Socket socket, Response response) throws IOException, ScorpioNormalException {
         response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
@@ -95,12 +106,13 @@ public class Core {
 
     /**
      * 解析文件内容,做出响应
-     * @param socket 客户端连接
-     * @param response 响应对象
-     * @param uri URI
+     *
+     * @param socket     客户端连接
+     * @param response   响应对象
+     * @param uri        URI
      * @param appContext 应用上下文
      * @throws ScorpioNormalException 常规异常
-     * @throws IOException IO异常
+     * @throws IOException            IO异常
      */
     public void fileProcess(Socket socket, Response response, String uri, Context appContext)
             throws ScorpioNormalException, IOException {
@@ -136,9 +148,10 @@ public class Core {
 
     /**
      * 响应[404/200]
-     * @param socket 客户端连接
+     *
+     * @param socket         客户端连接
      * @param responseStatus 响应状态
-     * @param response 响应对象
+     * @param response       响应对象
      * @throws IOException IO异常
      */
     public void reply(Socket socket, Response response, ResponseStatus responseStatus)
@@ -149,7 +162,7 @@ public class Core {
             case _200:
                 header = StrUtil.format(ResponseConstant.RESPONSE_200_HEADER, response.getContentType());
                 this.reply(socket, response, header);
-            break;
+                break;
             case _404:
                 header = ResponseConstant.RESPONSE_404_HEADER;
                 this.reply(socket, response, header);
@@ -161,8 +174,9 @@ public class Core {
 
     /**
      * 响应
-     * @param socket 客户端连接
-     * @param header 响应头
+     *
+     * @param socket   客户端连接
+     * @param header   响应头
      * @param response 响应对象
      * @throws IOException IO异常
      */
@@ -186,7 +200,8 @@ public class Core {
 
     /**
      * 响应[500]
-     * @param socket 客户端连接
+     *
+     * @param socket    客户端连接
      * @param exception 异常
      */
     public void reply(Socket socket, Response response, Exception exception) throws IOException {
@@ -241,6 +256,7 @@ public class Core {
 
     /**
      * Request组件请求信息
+     *
      * @param request request 组件
      */
     public void requestLog(Request request) {
@@ -249,6 +265,7 @@ public class Core {
 
     /**
      * Response组件响应信息
+     *
      * @param response response 组件
      */
     public void responseLog(Response response) {

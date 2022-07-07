@@ -2,6 +2,7 @@ package com.touchsun.scorpio.exception;
 
 /**
  * 异常提示信息
+ *
  * @author Lee
  */
 public class ExceptionMessage {

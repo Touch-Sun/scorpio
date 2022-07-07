@@ -18,6 +18,7 @@ import java.util.Set;
 /**
  * 虚拟浏览器
  * 为了方便调试Http
+ *
  * @author Lee
  */
 public class VirtualBrowser {
@@ -39,6 +40,7 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http内部的内容
+     *
      * @param url URL
      * @return String类型信息
      */
@@ -49,7 +51,8 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http内部的内容
-     * @param url URL
+     *
+     * @param url  URL
      * @param gzip 是否gzip
      * @return String类型信息
      */
@@ -64,6 +67,7 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http全部信息
+     *
      * @param url URL
      * @return String类型信息
      */
@@ -74,7 +78,8 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http全部信息
-     * @param url URL
+     *
+     * @param url  URL
      * @param gzip 是否gzip
      * @return String类型信息
      */
@@ -86,6 +91,7 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http内部内容的字节信息
+     *
      * @param url URL
      * @return 字节数组类型信息
      */
@@ -96,7 +102,8 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http内部内容的字节信息
-     * @param url URL
+     *
+     * @param url  URL
      * @param gzip 是否gzip
      * @return 字节数组类型信息
      */
@@ -123,12 +130,13 @@ public class VirtualBrowser {
 
         position += doubleNewline.length;
 
-        return Arrays.copyOfRange(response ,position, response.length);
+        return Arrays.copyOfRange(response, position, response.length);
     }
 
     /**
      * [重载方法]
      * 获取Http全部内容的字节信息
+     *
      * @param url URL
      * @return 字节数组类型信息
      */
@@ -139,7 +147,8 @@ public class VirtualBrowser {
     /**
      * [重载方法]
      * 获取Http全部内容的字节信息
-     * @param url URL
+     *
+     * @param url  URL
      * @param gzip 是否gzip
      * @return 字节数组类型信息
      */
@@ -217,8 +226,9 @@ public class VirtualBrowser {
 
     /**
      * 读取字节内容从请求中
+     *
      * @param inputStream 客户端创建的输入流
-     * @param all 是否完全读取文件
+     * @param all         是否完全读取文件
      * @return 字节内容
      * @throws IOException IO异常
      */
@@ -232,7 +242,7 @@ public class VirtualBrowser {
             if (VirtualBrowserConfig.DEFAULT_INPUT_STREAM_NULL_TAG == length) {
                 break;
             }
-            byteArrayOutputStream.write(buffer, 0 ,length);
+            byteArrayOutputStream.write(buffer, 0, length);
             if (length != bufferSize && !all) {
                 // 剩余内容字节大小 < 1024 不读取终端,且通过all控制
                 break;

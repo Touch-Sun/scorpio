@@ -7,14 +7,16 @@ import com.touchsun.scorpio.exception.ScorpioNormalException;
 
 /**
  * Scorpio静态启动类
+ *
  * @author Lee
  */
 public class ScorpioApplication {
 
     /**
      * Scorpio App 启动方法
+     *
      * @param bootStrapClass 启动类
-     * @param args 命令行参数
+     * @param args           命令行参数
      */
     public static void run(Class<?> bootStrapClass, String[] args) {
         try {

@@ -3,9 +3,9 @@ package com.touchsun.scorpio.core;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.config.ScorpioConfig;
-import com.touchsun.scorpio.plugin.AppXMLParser;
 import com.touchsun.scorpio.exception.ExceptionMessage;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
+import com.touchsun.scorpio.plugin.AppXMLParser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 虚拟主机
+ *
  * @author Lee
  */
 public class Host {
@@ -109,6 +110,7 @@ public class Host {
 
     /**
      * 获取Context
+     *
      * @param path 访问路径
      * @return Context
      */
