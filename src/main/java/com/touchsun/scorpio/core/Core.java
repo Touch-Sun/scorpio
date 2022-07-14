@@ -100,7 +100,7 @@ public class Core {
      * @throws IOException            IO异常
      */
     private void textProcess(Socket socket, Response response) throws IOException, ScorpioNormalException {
-        response.getPrintWriter().println(ScorpioConfig.MSG_WELCOME);
+        response.getWriter().println(ScorpioConfig.MSG_WELCOME);
         this.reply(socket, response, ResponseStatus._200);
     }
 
@@ -141,7 +141,7 @@ public class Core {
         } else {
             // 写入[文件未找到信息]
             String responseMessage = StrUtil.format(ResponseConstant.RESPONSE_404_HTML, uri, uri);
-            response.getPrintWriter().println(responseMessage);
+            response.getWriter().println(responseMessage);
             this.reply(socket, response, ResponseStatus._404);
         }
     }
@@ -227,7 +227,7 @@ public class Core {
         // 写入Response组件Body信息
         String responseMessage = StrUtil.format(ResponseConstant.RESPONSE_500_HTML,
                 message, exception.toString(), stringBuilder.toString());
-        response.getPrintWriter().println(responseMessage);
+        response.getWriter().println(responseMessage);
         String header = ResponseConstant.RESPONSE_500_HEADER;
         // 响应
         this.reply(socket, response, header);
