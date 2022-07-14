@@ -40,6 +40,11 @@ public class ScorpioConfig {
     public static final String SCORPIO_THREAD_NAME = "scorpio-started-thread-";
 
     /**
+     * 默认web.xml配置文件地址[WEB-INF/web.xml]
+     */
+    public static final String DEFAULT_WEB_XML_PATH = "WEB-INF/web.xml";
+
+    /**
      * 默认配置文件元素节点名称[Context]
      */
     public static final String DEFAULT_SERVER_XML_ELEMENT_NAME_CONTEXT = "Context";
@@ -110,6 +115,11 @@ public class ScorpioConfig {
     public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_DEFAULT_HOST_NAME = "defaultHost";
 
     /**
+     * Servlet配置文件元素节点名称[WatchedResource]
+     */
+    public static final String DEFAULT_CONTENT_XML_ELEMENT_NAME_WATCHEDRESOURCE = "WatchedResource";
+
+    /**
      * 默认程序加载策略[ALL]
      * 详细信息参照 @LoadStrategy
      */
@@ -145,6 +155,11 @@ public class ScorpioConfig {
      * 文件名称[web.xml]
      */
     public static final String WEB_XML_NAME = "web.xml";
+
+    /**
+     * 文件名称[content.xml]
+     */
+    public static final String CONTENT_XML_NAME = "content.xml";
 
     /**
      * 页面[timeConsume.html]
@@ -260,6 +275,11 @@ public class ScorpioConfig {
      * 配置文件[web.xml]
      */
     public final static File WEB_XML_FILE = new File(CONFIG_FOLDER, WEB_XML_NAME);
+
+    /**
+     * 配置文件[content.xml]
+     */
+    public final static File CONTENT_XML_FILE = new File(CONFIG_FOLDER, CONTENT_XML_NAME);
 
     ///////////////////////////////////////////////////////////////////////////
     // Scorpio虚拟机信息
