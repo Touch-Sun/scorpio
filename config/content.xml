@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+    <!--配置信息路径-->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>
