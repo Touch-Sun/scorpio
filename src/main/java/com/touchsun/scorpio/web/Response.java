@@ -26,7 +26,6 @@ public class Response extends BaseResponse {
      * 模仿Tomcat中<code>response.getWriter().println();</code>风格代码
      * 此成员的个get方法重写了HttpServletResponse的getWriter，多态形式展现
      */
-    @Getter
     private PrintWriter writer;
 
     /**
@@ -61,5 +60,10 @@ public class Response extends BaseResponse {
         }
         String content = stringWriter.toString();
         return content.getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public PrintWriter getWriter() {
+        return writer;
     }
 }

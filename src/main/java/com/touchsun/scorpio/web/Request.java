@@ -62,17 +62,16 @@ public class Request extends BaseRequest {
         this.socket = socket;
         this.service = service;
         parseHttpRequest();
-        if (!StrUtil.isEmpty(requestContent)) {
-            // 解析URI
-            parseUri();
-            // 初始化应用上下文
-            initContext();
-            // 修正Uri
-            fixUri();
-        } else {
+        if (StrUtil.isEmpty(requestContent)) {
             System.err.println("Http请求内容为空,无法解析Uri");
             return;
         }
+        // 解析URI
+        parseUri();
+        // 初始化应用上下文
+        initContext();
+        // 修正Uri
+        fixUri();
         LogFactory.get().debug(this.toString());
     }
 

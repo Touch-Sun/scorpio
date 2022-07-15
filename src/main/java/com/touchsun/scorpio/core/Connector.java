@@ -89,7 +89,7 @@ public class Connector implements Runnable {
                             this.core.reply(socket, response, e);
                         } catch (IOException ex) {
                             ex.printStackTrace();
-                            LogFactory.get().error(e);
+                            LogFactory.get().error(ex);
                         }
                     }
                 });

@@ -17,7 +17,7 @@ public class HelloServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.getWriter().println("Hello Scorpio, I am your first servlet!");
+            resp.getWriter().println("<h1>Hello Scorpio, I am your first servlet!</h1>");
         } catch (IOException e) {
             e.printStackTrace();
             LogFactory.get().error(e);

@@ -26,7 +26,7 @@ public class ServletXMLParser {
             // 解析成Document
             Document document = Jsoup.parse(contentXmlInfo);
             // 查找[WatchedResource]节点
-            Element element = document.select(ScorpioConfig.DEFAULT_CONTENT_XML_ELEMENT_NAME_WATCHEDRESOURCE).first();
+            Element element = document.select(ScorpioConfig.DEFAULT_CONTENT_XML_ELEMENT_NAME_WATCHED_RESOURCE).first();
             // 返回元素内容
             return element.text();
         } catch (Exception e) {

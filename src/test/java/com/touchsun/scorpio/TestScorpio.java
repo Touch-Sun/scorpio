@@ -158,7 +158,13 @@ public class TestScorpio {
     @Test
     public void testServletScorpio() {
         String html = getContent("/servlet");
-        Assert.assertEquals(html, "你好Scorpio,我是你的第一个Servlet");
+        Assert.assertEquals(html, "Hello Scorpio, I am your first servlet!");
+    }
+
+    @Test
+    public void testConfigServletScorpio() {
+        String html = getContent("/j2ee/hello");
+        Assert.assertEquals(html, "Hello Scorpio, I am your first servlet!");
     }
 
     /**

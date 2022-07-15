@@ -115,9 +115,39 @@ public class ScorpioConfig {
     public static final String DEFAULT_SERVER_XML_ELEMENT_ATTRIBUTE_DEFAULT_HOST_NAME = "defaultHost";
 
     /**
-     * Servlet配置文件元素节点名称[WatchedResource]
+     * Content配置文件元素节点名称[WatchedResource]
      */
-    public static final String DEFAULT_CONTENT_XML_ELEMENT_NAME_WATCHEDRESOURCE = "WatchedResource";
+    public static final String DEFAULT_CONTENT_XML_ELEMENT_NAME_WATCHED_RESOURCE = "WatchedResource";
+
+    /**
+     * Web配置文件元素节点名称[servlet]
+     */
+    public static final String DEFAULT_WEB_XML_ELEMENT_NAME_SERVLET = "servlet";
+
+    /**
+     * Web配置文件元素节点名称[servlet-mapping]
+     */
+    public static final String DEFAULT_WEB_XML_ELEMENT_NAME_SERVLET_MAPPING = "servlet-mapping";
+
+    /**
+     * Web配置文件元素节点名称[servlet-class]
+     */
+    public static final String DEFAULT_WEB_XML_ELEMENT_NAME_SERVLET_CLASS = "servlet-class";
+
+    /**
+     * Web配置文件元素节点名称[servlet-name]
+     */
+    public static final String DEFAULT_WEB_XML_ELEMENT_NAME_SERVLET_NAME = "servlet-name";
+
+    /**
+     * Web配置文件元素节点名称[url-pattern]
+     */
+    public static final String DEFAULT_WEB_XML_ELEMENT_NAME_URL_PATTERN = "url-pattern";
+
+    /**
+     * Servlet默认处理GET请求的方法[doGet]反射使用
+     */
+    public static final String DEFAULT_SERVLET_GET_METHOD_NAME = "doGet";
 
     /**
      * 默认程序加载策略[ALL]
@@ -232,6 +262,31 @@ public class ScorpioConfig {
     public static final String MSG_FIX_URI_ROOT_APP = "Access the ROOT app without corrections";
 
     /**
+     * 信息[Servlet URL必须保持唯一]
+     */
+    public static final String MSG_SERVLET_URL_REPEAT = "The URL of the servlet is unique, please check your servlet configuration: {}.";
+
+    /**
+     * 信息[Servlet 名称必须保持唯一]
+     */
+    public static final String MSG_SERVLET_NAME_REPEAT = "The name of the servlet is unique, please check your servlet configuration: {}.";
+
+    /**
+     * 信息[Servlet 类必须保持唯一]
+     */
+    public static final String MSG_SERVLET_CLASS_REPEAT = "The class of the servlet is unique, please check your servlet configuration: {}.";
+
+    /**
+     * 信息[Web应用的部署目录]
+     */
+    public static final String MSG_APP_DEPLOY_DIR = "The deployment directory of the web application is: {}.";
+
+    /**
+     * 信息[Web应用部署用时]
+     */
+    public static final String MSG_APP_DEPLOY_FINAISH = "Web application in directory: {} has been deployed, total time: {} milliseconds.";
+
+    /**
      * 符号[\t]
      */
     public static final String SYMBOL_TAB = "\t";
@@ -250,6 +305,11 @@ public class ScorpioConfig {
      * 符号[:]
      */
     public static final String SYMBOL_COLON = ":";
+
+    /**
+     * 符号[空格]
+     */
+    public static final String SYMBOL_SPACE = " ";
 
     /**
      * Web程序存放目录[WEBAPPS_FOLDER]

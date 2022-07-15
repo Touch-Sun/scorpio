@@ -3,6 +3,7 @@ package com.touchsun.scorpio.core;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.config.ScorpioConfig;
@@ -59,13 +60,24 @@ public class Core {
 
         // 根据URI返回资源
         String uri = request.getUri();
+        // URI 为空直接返回
+        if (null == uri) {
+            return;
+        }
+
         // 获取应用上下文,定位不同的Web应用
         Context appContext = request.getAppContext();
+        // 根据URI拿到Servlet的类名
+        String servletClassName = appContext.getServletClassName(uri);
 
-        // 模拟Servlet响应
-        if (StrUtil.equals(ScorpioConfig.URI_SERVLET, uri)) {
-            HelloServlet helloServlet = HelloServlet.instance();
-            helloServlet.doGet(request, response);
+        // 判断是否是Servlet请求
+        if (null != servletClassName) {
+            // 通过反射拿到servlet对象实例
+            Object servlet = ReflectUtil.newInstance(servletClassName);
+            // 通过反射调用servlet的doGet方法
+            ReflectUtil.invoke(servlet, ScorpioConfig.DEFAULT_SERVLET_GET_METHOD_NAME, request, response);
+            // 应答给客户端
+            this.reply(socket, response, ResponseStatus._200);
         } else {
             if (ScorpioConfig.URI_ROOT.equals(uri)) {
                 switch (ScorpioConfig.DEFAULT_WELCOME_TYPE_STRATEGY) {
