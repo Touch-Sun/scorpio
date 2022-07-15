@@ -63,7 +63,6 @@ public class Request extends BaseRequest {
         this.service = service;
         parseHttpRequest();
         if (StrUtil.isEmpty(requestContent)) {
-            System.err.println("Http请求内容为空,无法解析Uri");
             return;
         }
         // 解析URI

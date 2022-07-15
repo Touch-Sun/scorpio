@@ -3,10 +3,17 @@
     <servlet>
         <servlet-name>HelloServlet</servlet-name>
         <servlet-class>com.touchsun.scorpio.servlet.HelloServlet</servlet-class>
+        <servlet-name>ScorpioServlet</servlet-name>
+        <servlet-class>com.touchsun.scorpio.servlet.ScorpioServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ScorpioServlet</servlet-name>
+        <url-pattern>/scorpio</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -23,8 +23,4 @@ public class HelloServlet extends HttpServlet {
             LogFactory.get().error(e);
         }
     }
-
-    public static HelloServlet instance() {
-        return new HelloServlet();
-    }
 }
