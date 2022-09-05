@@ -3,7 +3,6 @@ package com.touchsun.scorpio.core;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.LogFactory;
 import com.touchsun.scorpio.config.ScorpioConfig;
@@ -11,11 +10,12 @@ import com.touchsun.scorpio.constant.ResponseConstant;
 import com.touchsun.scorpio.exception.ExceptionMessage;
 import com.touchsun.scorpio.exception.ScorpioNormalException;
 import com.touchsun.scorpio.plugin.AppXMLParser;
-import com.touchsun.scorpio.servlet.HelloServlet;
+import com.touchsun.scorpio.plugin.ServletInvoker;
 import com.touchsun.scorpio.type.ResponseStatus;
 import com.touchsun.scorpio.web.Request;
 import com.touchsun.scorpio.web.Response;
 
+import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -54,7 +54,7 @@ public class Core {
      * @throws IOException IO异常
      */
     public void handleRequest(Socket socket, Request request, Response response)
-            throws IOException, ScorpioNormalException {
+            throws IOException, ScorpioNormalException, ServletException {
         // 请求日志
         requestLog(request);
 
@@ -72,10 +72,8 @@ public class Core {
 
         // 判断是否是Servlet请求
         if (null != servletClassName) {
-            // 通过反射拿到servlet对象实例
-            Object servlet = ReflectUtil.newInstance(servletClassName);
-            // 通过反射调用servlet的doGet方法
-            ReflectUtil.invoke(servlet, ScorpioConfig.DEFAULT_SERVLET_GET_METHOD_NAME, request, response);
+            // 使用InvokerServlet去执行Servlet的处理方法
+            ServletInvoker.getInstance().service(request, response);
             // 应答给客户端
             this.reply(socket, response, ResponseStatus._200);
         } else {

@@ -43,6 +43,11 @@ public class Request extends BaseRequest {
     private String uri;
 
     /**
+     * HTTP 请求方法
+     */
+    private String method;
+
+    /**
      * socket
      */
     private Socket socket;
@@ -67,6 +72,8 @@ public class Request extends BaseRequest {
         }
         // 解析URI
         parseUri();
+        // 解析Method
+        parseMethod();
         // 初始化应用上下文
         initContext();
         // 修正Uri
@@ -98,6 +105,13 @@ public class Request extends BaseRequest {
             temp = StrUtil.subBefore(temp, '?', false);
             uri = temp;
         }
+    }
+
+    /**
+     * 解析方法
+     */
+    private void parseMethod() {
+        method = StrUtil.subBefore(requestContent, " ", false);
     }
 
     /**
@@ -145,6 +159,12 @@ public class Request extends BaseRequest {
             // 未获取到,直接使用根[ROOT]
             appContext = engine.getDefaultHost().getContext(ScorpioConfig.URI_ROOT);
         }
+    }
+
+
+    @Override
+    public String getMethod() {
+        return method;
     }
 }
 

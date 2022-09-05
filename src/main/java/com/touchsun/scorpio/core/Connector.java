@@ -9,6 +9,7 @@ import com.touchsun.scorpio.web.Response;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -86,6 +87,14 @@ public class Connector implements Runnable {
                         LogFactory.get().error(e);
                         try {
                             // 发生异常响应异常
+                            this.core.reply(socket, response, e);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            LogFactory.get().error(ex);
+                        }
+                    } catch (ServletException e) {
+                        // 发生异常响应异常
+                        try {
                             this.core.reply(socket, response, e);
                         } catch (IOException ex) {
                             ex.printStackTrace();
