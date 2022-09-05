@@ -1,7 +1,8 @@
-package com.touchsun.scorpio.plugin;
+package com.touchsun.scorpio.invoker;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.touchsun.scorpio.core.Context;
+import com.touchsun.scorpio.type.ResponseStatus;
 import com.touchsun.scorpio.web.Request;
 import com.touchsun.scorpio.web.Response;
 
@@ -12,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 处理Servlet的上层组件
- * 此组件被设计成单例模式
+ * Servlet执行器
+ * - 单例模式
  *
  * @author lee
  */
@@ -47,6 +48,9 @@ public class ServletInvoker extends HttpServlet {
         Object servlet = ReflectUtil.newInstance(servletClassName);
         // 反射执行对应Servlet的service方法, 且把Scorpio的Request传入
         ReflectUtil.invoke(servlet, "service", request, response);
+
+        // 处理结束,响应200
+        response.setStatus(ResponseStatus._200.getCode());
 
     }
 }

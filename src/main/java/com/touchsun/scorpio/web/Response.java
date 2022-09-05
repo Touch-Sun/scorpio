@@ -36,6 +36,11 @@ public class Response extends BaseResponse {
     private String contentType;
 
     /**
+     * HTTP 响应状态码
+     */
+    private int status;
+
+    /**
      * 存放二进制文件
      */
     @Setter
@@ -65,5 +70,15 @@ public class Response extends BaseResponse {
     @Override
     public PrintWriter getWriter() {
         return writer;
+    }
+
+    @Override
+    public void setStatus(int i) {
+        status = i;
+    }
+
+    @Override
+    public int getStatus() {
+        return status;
     }
 }
