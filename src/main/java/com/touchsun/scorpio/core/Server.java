@@ -19,13 +19,13 @@ public class Server {
      */
     private Core core;
 
-    public Server(Core core) throws ScorpioNormalException {
+    public Server() throws ScorpioNormalException {
+        this.core = Core.instance();
         this.service = Service.instance(this, core);
-        this.core = core;
     }
 
-    public static Server instance(Core core) throws ScorpioNormalException {
-        return new Server(core);
+    public static Server instance() throws ScorpioNormalException {
+        return new Server();
     }
 
     /**
