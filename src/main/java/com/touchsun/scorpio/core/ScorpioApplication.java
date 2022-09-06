@@ -33,7 +33,6 @@ public class ScorpioApplication {
             // 执行start方法
             Method start = serverClass.getMethod("start");
             start.invoke(server);
-            System.out.println(serverClass.getClassLoader());
         } catch (ScorpioNormalException e) {
             e.printStackTrace();
             LogFactory.get().error(e);

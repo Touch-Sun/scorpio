@@ -1,9 +1,5 @@
 package com.touchsun.scorpio.invoker;
 
-import com.touchsun.scorpio.core.Context;
-import com.touchsun.scorpio.web.Request;
-import com.touchsun.scorpio.web.Response;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
